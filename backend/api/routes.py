@@ -1,7 +1,6 @@
 from flask import request, jsonify, Blueprint, session
-from flask_login import login_required
 from mentorapp import db, bcrypt
-from mentorapp.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
+from backend.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
 from mentorapp.models import Mentor, Mentee
 
 
