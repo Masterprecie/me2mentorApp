@@ -1,8 +1,8 @@
 '''
     mentee - mentor imports
 '''
-from api import db, bcrypt
 from flask import Blueprint, jsonify, request
+from api import db, bcrypt
 from api.main import user_present
 from api.models import Mentor, Mentee
 from api.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
