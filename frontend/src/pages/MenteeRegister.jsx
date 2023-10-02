@@ -1,37 +1,31 @@
 import { useState } from "react";
+import axios from 'axios';
 
 const defaultValues = {
-	firstName: '',
-	lastName: '',
+	first_name: '',
+	last_name: '',
 	username: '',
 	email: '',
-	age: '',
-	phoneNumber: '',
+	gender: '',
+	age: null,
 	password: '',
-	confirmPassword: '',
-	qualification: '',
-	picture: null,
+	password_hash: '',
+	interests: '',
+	profile_picture: '',
 }
 
-
 const MenteeRegister = () => {
-	const [errors, setErrors] = useState({});
-	const [passwordMatchError, setPasswordMatchError] = useState('');
-
 	const [formData, setFormData] = useState(defaultValues);
-	console.log(formData)
+
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-
-		setErrors({
-			...errors,
-			[name]: '', //Clears the error for the field
-		});
+		const newValue = name === 'age' ? parseInt(value, 10) : value;
 		setFormData({
 			...formData,
-			[name]: value,
+			[name]: newValue,
 		});
 	};
+
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
@@ -41,71 +35,30 @@ const MenteeRegister = () => {
 		});
 	};
 
-	const validateForm = () => {
-		const newErrors = {};
-		// Check if fields are empty
-		for (const key in formData) {
-			if (!formData[key]) {
-				newErrors[key] = 'This field is required';
-			}
-		}
-
-		// Check if passwords match
-		if (formData.password !== formData.confirmPassword) {
-			setPasswordMatchError("Passwords do not match");
-			newErrors.confirmPassword = 'Passwords do not match';
-		} else {
-			setPasswordMatchError('');
-		}
-
-		setErrors(newErrors);
-
-		// Return true if there are no errors, indicating a valid form
-		return Object.keys(newErrors).length === 0;
-
-	};
-
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (validateForm()) {
-			// If validation passes, create a FormData object to send as a POST request
-			const formDataToSend = new FormData();
-			for (const key in formData) {
-				formDataToSend.append(key, formData[key]);
+		try {
+			const response = await axios.post('http://localhost:5000/api/blp_users/mentee_register', formData);
+
+			if (response.status === 200) {
+				console.log('Registration successful');
+				const data = response.data;
+				console.log('Response data:', data);
+				// Redirect to the home page (adjust the URL as needed)
+				window.location.href = '/'; // You can use React Router here if applicable
+			} else if (response.status === 400) {
+				// Handle validation errors and display error messages to the user
+				const errorData = response.data;
+				console.error('Registration failed:', errorData.message);
+			} else {
+				// Handle other error cases (e.g., server errors) and show a generic error message
+				console.error('Registration failed');
 			}
-
-			try {
-				const response = await fetch('http://localhost:5000/api/register', {
-					method: 'POST',
-					body: formDataToSend,
-				});
-
-				if (response.status === 201) {
-					console.log('Registration successful');
-					const data = await response.json();
-					console.log('Response data:', data);
-					// Redirect to the home page (adjust the URL as needed)
-					window.location.href = '/'; // You can use React Router here if applicable
-				} else if (response.status === 400) {
-					// Handle validation errors and display error messages to the user
-					const errorData = await response.json();
-					console.error('Registration failed:', errorData.message);
-					// Update the state to display error messages to the user
-					setErrors(errorData.errors);
-				} else {
-					// Handle other error cases (e.g., server errors) and show a generic error message
-					console.error('Registration failed');
-					// Display a generic error message to the user
-				}
-			} catch (error) {
-				console.error('Error:', error);
-				// Handle network errors or other exceptions and display an error message to the user
-
-			}
+		} catch (error) {
+			console.error('Error:', error);
+			// Handle network errors or other exceptions and display an error message to the user
 		}
 	};
-
 
 	return (
 		<div className="w-full bg-gray-200 h-full flex flex-col justify-center py-10">
@@ -119,26 +72,20 @@ const MenteeRegister = () => {
 						<label htmlFor="firstName" className="block text-lg font-semibold"> First Name </label>
 						<input
 							type="text"
-							name="firstName"
-							value={formData.firstName}
+							name="first_name"
+							value={formData.first_name}
 							onChange={handleInputChange}
 							placeholder="Enter your First Name" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.firstName && (
-							<span className="text-red-600">{errors.firstName}</span>
-						)}
 					</div>
 
 					<div>
 						<label htmlFor="lastName" className="block text-lg font-semibold"> Last Name </label>
 						<input
 							type="text"
-							name="lastName"
-							value={formData.lastName}
+							name="last_name"
+							value={formData.last_name}
 							onChange={handleInputChange}
 							placeholder="Enter your Last Name" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.lastName && (
-							<span className="text-red-600">{errors.lastName}</span>
-						)}
 					</div>
 					<div>
 						<label htmlFor="userName" className="block text-lg font-semibold"> Username </label>
@@ -147,11 +94,20 @@ const MenteeRegister = () => {
 							value={formData.username}
 							onChange={handleInputChange}
 							placeholder="Enter your username" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.username && (
-							<span className="text-red-600">{errors.username}</span>
-						)}
 					</div>
 
+					<div>
+						<label htmlFor="email" className="block text-lg font-semibold"> Gender </label>
+						<select name="gender" id=""
+							value={formData.gender}
+							onChange={handleInputChange}
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
+							<option value="">Select a Gender</option>
+							<option value="Option 1">Male</option>
+							<option value="Option 2">Female</option>
+						</select>
+
+					</div>
 					<div>
 						<label htmlFor="email" className="block text-lg font-semibold"> Email </label>
 						<input type="email"
@@ -159,9 +115,6 @@ const MenteeRegister = () => {
 							value={formData.email}
 							onChange={handleInputChange}
 							placeholder="Email" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.email && (
-							<span className="text-red-600">{errors.email}</span>
-						)}
 					</div>
 					<div>
 						<label htmlFor="age" className="block text-lg font-semibold"> Age </label>
@@ -170,21 +123,8 @@ const MenteeRegister = () => {
 							value={formData.age}
 							onChange={handleInputChange}
 							placeholder="Age" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.age && (
-							<span className="text-red-600">{errors.age}</span>
-						)}
 					</div>
-					<div>
-						<label htmlFor="phoneNumber" className="block text-lg font-semibold"> Phone Number </label>
-						<input type="number"
-							name="phoneNumber"
-							value={formData.phoneNumber}
-							onChange={handleInputChange}
-							placeholder="Phone Number" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.phoneNumber && (
-							<span className="text-red-600">{errors.phoneNumber}</span>
-						)}
-					</div>
+
 					<div>
 						<label htmlFor="password" className="block text-lg font-semibold"> Password </label>
 						<input type="password"
@@ -192,46 +132,30 @@ const MenteeRegister = () => {
 							value={formData.password}
 							onChange={handleInputChange}
 							placeholder="Password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.password && (
-							<span className="text-red-600">{errors.password}</span>
-						)}
-						{passwordMatchError && (
-							<span className="text-red-600">{passwordMatchError}</span>
-						)}
 					</div>
 					<div>
-						<label htmlFor="password" className="block text-lg font-semibold"> Comfirm Password </label>
+						<label htmlFor="password" className="block text-lg font-semibold"> Confirm Password </label>
 						<input type="password"
-							name="confirmPassword"
-							value={formData.confirmPassword}
+							name="password_hash"
+							value={formData.password_hash}
 							onChange={handleInputChange}
-							placeholder="Comfirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.confirmPassword && (
-							<span className="text-red-600">{errors.confirmPassword}</span>
-						)}
-
+							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 					<div>
-						<label htmlFor="qualification" className="block text-lg font-semibold"> Current Qualification </label>
-						<select name="qualification" id=""
-							value={formData.qualification}
+						<label htmlFor="Interest" className="block text-lg font-semibold"> Interests </label>
+						<input type="text"
+							name="interests"
+							value={formData.interests}
 							onChange={handleInputChange}
-							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
-
-							<option value=""></option>
-							<option value="Option 1">Option 1</option>
-							<option value="Option 2">Option 2</option>
-						</select>
+							placeholder="Interest" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 
 					<div>
 						<label htmlFor="picture" className="block text-lg font-semibold"> Profile Picture </label>
 						<input
-
 							type="file"
 							onChange={handleFileChange}
-							placeholder="Comfirm password" className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-
+							className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 
 					<div className="text-center w-full col-span-2 pt-3">
@@ -239,10 +163,8 @@ const MenteeRegister = () => {
 					</div>
 				</form>
 			</div>
-
 		</div>
-
 	)
 }
 
-export default MenteeRegister
+export default MenteeRegister;

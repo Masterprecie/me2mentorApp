@@ -1,2 +1,10 @@
-flask
-flask_sqlalchmey
+Flask
+Flask-Sqlalchemy
+Flask-Bcrypt
+Flask-Marshmallow
+Marshmallow
+Marshmallow-Sqlalchemy
+Flask-Cors
+Flask-jwt
+Flask-smorest
+Pillow

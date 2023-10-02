@@ -4,6 +4,45 @@ import Footer from "../components/Footer"
 import { services } from '../utils/data'
 
 const Services = () => {
+
+  //   e.preventDefault();
+  //   if (validateForm()) {
+  //     // If validation passes, create a FormData object to send as a POST request
+  //     const formDataToSend = new FormData();
+  //     for (const key in formData) {
+  //       formDataToSend.append(key, formData[key]);
+  //     }
+
+  //     try {
+  //       const response = await fetch('http://localhost:5000/api/register', {
+  //         method: 'POST',
+  //         body: formDataToSend,
+  //       });
+
+  //       if (response.status === 201) {
+  //         console.log('Registration successful');
+  //         const data = await response.json();
+  //         console.log('Response data:', data);
+  //         // Redirect to the home page (adjust the URL as needed)
+  //         window.location.href = '/'; // You can use React Router here if applicable
+  //       } else if (response.status === 400) {
+  //         // Handle validation errors and display error messages to the user
+  //         const errorData = await response.json();
+  //         console.error('Registration failed:', errorData.message);
+  //         // Update the state to display error messages to the user
+  //         setErrors(errorData.errors);
+  //       } else {
+  //         // Handle other error cases (e.g., server errors) and show a generic error message
+  //         console.error('Registration failed');
+  //         // Display a generic error message to the user
+  //       }
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //       // Handle network errors or other exceptions and display an error message to the user
+
+  //     }
+  //   }
+  // };
   return (
     <>
       <NavBar />
