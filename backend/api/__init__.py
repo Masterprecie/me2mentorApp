@@ -1,11 +1,8 @@
 """ installed package imports """
 from flask import Flask
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
-from flask_mail import Mail
-from mentorapp.config import Config
 
 
 
@@ -14,8 +11,7 @@ from mentorapp.config import Config
 db = SQLAlchemy()
 ma = Marshmallow()
 bcrypt = Bcrypt()
-
-mail = Mail()
+cors = CORS()
 
 
 def create_app(config_class=Config):
@@ -24,18 +20,15 @@ def create_app(config_class=Config):
     '''
     app = Flask(__name__)
     app.config.from_object(Config)
-    cors = CORS(app)
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
 
     db.init_app(app)
     bcrypt.init_app(app)
-    mail.init_app(app)
+    cors.init_app(app)
 
     # circular import prevention #
-    from mentorapp.api.routes import api
-
+    from api.main import main
+    
     # Flask blueprint register
-    app.register_blueprint(api)
+    app.register_blueprint(main, url_prefix='/api/main')
 
     return app
