@@ -41,7 +41,7 @@ const MentorRegister = () => {
 		try {
 			const response = await axios.post('http://localhost:5000/api/blp_users/mentor_register', formData);
 
-			if (response.status === 201) {
+			if (response.status === 200) {
 				console.log('Registration successful');
 				const data = response.data;
 				console.log('Response data:', data);
@@ -142,17 +142,6 @@ const MentorRegister = () => {
 							value={formData.password_hash}
 							onChange={handleInputChange}
 							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-					</div>
-					<div>
-						<label htmlFor="interest" className="block text-lg font-semibold"> Interests </label>
-						<select name="interests"
-							value={formData.interests}
-							onChange={handleInputChange}
-							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
-							<option value="">Select an Interest</option>
-							<option value="Option 1">Option 1</option>
-							<option value="Option 2">Option 2</option>
-						</select>
 					</div>
 
 					<div>
