@@ -4,7 +4,7 @@ import Footer from "../components/Footer"
 import { services } from '../utils/data'
 
 const Services = () => {
-  // const handleSubmit = async (e) => {
+
   //   e.preventDefault();
   //   if (validateForm()) {
   //     // If validation passes, create a FormData object to send as a POST request
