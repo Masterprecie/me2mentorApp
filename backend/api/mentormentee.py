@@ -10,7 +10,6 @@ from api.models import Mentor, Mentee
 from api.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import jwt_required, get_jwt_identity
-# from api.auth import access_requ
 
 blp_users = Blueprint('users', __name__)
 
@@ -42,7 +41,8 @@ def mentee_register():
                     age=age,
                     gender=gender,
                     username=username,
-                    password=hashed_password
+                    password=hashed_password,
+                    interests=interests
                     )
 
             db.session.add(mentee)
@@ -152,10 +152,13 @@ def mentor_register():
 
 @blp_users.route("/update_mentor/<int:id>", methods=["PUT"])
 @jwt_required()
-def update_mentor(id): 
+def update_mentor(id):
+    '''
+        route to update the mentor
+    '''
     mentor = Mentor.query.get(id)
     if not mentor:
-        return jsonify({"message": "Mentor not found"}), 
+        return jsonify({"message": "Mentor not found"})
     try:
         data = request.get_json()
         mentor.first_name = data.get("first_name", mentor.first_name)
@@ -175,6 +178,9 @@ def update_mentor(id):
 @blp_users.route("/delete_mentor/<int:id>", methods=["DELETE"], strict_slashes=False)
 @jwt_required()
 def delete_mentor(id):
+    '''
+        route to delete a specific mentor
+    '''
     mentor = Mentor.query.get(id)
     if mentor:
         db.session.delete(mentor)
