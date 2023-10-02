@@ -13,6 +13,7 @@ class Mentor(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     age = db.Column(db.Integer, nullable=False)
+    gender = db.column(db.String(6), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
@@ -27,7 +28,7 @@ class Mentor(db.Model):
     def __repr__(self):
         return (
             f"Mentor('{self.username}', '{self.email}', '{self.age}', '{self.expertise}'"
-            f"'{self.first_name}', '{self.last_name}', '{self.profile_picture}')"
+            f"'{self.first_name}', '{self.last_name}', '{self.gender}', '{self.profile_picture}')"
         )
 
 
@@ -40,6 +41,7 @@ class Mentee(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     age = db.Column(db.Integer, nullable=False)
+    gender = db.column(db.String(6), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
@@ -53,7 +55,7 @@ class Mentee(db.Model):
     def __repr__(self):
         return (
             f"Mentor('{self.username}', '{self.email}', '{self.age}', '{self.interests}'"
-            f"'{self.first_name}', '{self.last_name}', '{self.profile_picture}')"
+            f"'{self.first_name}', '{self.last_name}', '{self.gender}', '{self.profile_picture}')"
         )
 
 
