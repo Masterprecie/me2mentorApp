@@ -23,7 +23,7 @@ class Mentor(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     mentees = db.relationship('Mentee', backref='mentor', lazy=True)
-    mentee_appointment = db.relationship('Appointments', backref='mentor', lazy=True)
+    mentee_appointment = db.relationship('Appointment', backref='mentor', lazy=True)
 
 
     def __repr__(self):
