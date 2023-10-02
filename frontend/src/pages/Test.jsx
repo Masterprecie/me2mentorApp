@@ -6,6 +6,7 @@ const defaultValues = {
 	last_name: '',
 	username: '',
 	email: '',
+	gender: '',
 	age: null,
 	password: '',
 	password_hash: '',
@@ -94,6 +95,18 @@ const Test = () => {
 					</div>
 
 					<div>
+						<label htmlFor="email" className="block text-lg font-semibold"> Gender </label>
+						<select name="gender" id=""
+							value={formData.gender}
+							onChange={handleInputChange}
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
+							<option value="">Select a Gender</option>
+							<option value="Option 1">Male</option>
+							<option value="Option 2">Female</option>
+						</select>
+
+					</div>
+					<div>
 						<label htmlFor="email" className="block text-lg font-semibold"> Email </label>
 						<input type="email"
 							name="email"
@@ -132,7 +145,7 @@ const Test = () => {
 							value={formData.interests}
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
-							<option value=""></option>
+							<option value="">Select an Interest</option>
 							<option value="Option 1">Option 1</option>
 							<option value="Option 2">Option 2</option>
 						</select>
