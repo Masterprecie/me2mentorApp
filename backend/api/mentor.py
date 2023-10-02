@@ -6,14 +6,13 @@ from api import db
 from api.main import user_present
 from api.models import Mentor
 from api.schemas import mentor_schema, mentors_schema
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, create_access_token
 from passlib.hash import bcrypt_sha256
 
 
 mentors = Blueprint('mentors', __name__)
 
 @mentors.route("/getMentors/<int:id>", methods=["GET"])
-@jwt_required()
 def single_mentor():
     '''
         method to get a single mentor
@@ -23,7 +22,6 @@ def single_mentor():
 
 
 @mentors.route("/mentor_register", methods=["POST"])
-#@jwt_required()
 def mentor_register():
     '''
         a register function for the mentors
@@ -73,15 +71,16 @@ def mentor_login():
     '''
     try:
         data = request.get_json()
-        email = data['email']
+        username = data['username']
         plain_password = data['password']
 
-        mentor = Mentor.query.filter_by(email=email).first()
+        mentor = Mentor.query.filter_by(username=username).first()
 
         if mentor and bcrypt_sha256.verify(plain_password, mentor.password):
-            return jsonify({'message': 'Login Successful'}), 200
+            access_token = create_access_token(identity=mentor.id)
+            return jsonify({'access_token': access_token}), 200
         else:
-            return jsonify({'message': 'Login failed'}), 401
+            return jsonify({'message': 'Invalid credentials'}), 401
 
     except Exception as error:
         return jsonify({"error": str(error)}), 400
@@ -128,7 +127,6 @@ def delete_mentor():
 
 
 @mentors.route("/all_mentors", methods=['GET'])
-#@jwt_required
 def get_mentors():
     '''function to get all mentors in the database'''
     all_mentors = Mentor.query.all()
@@ -136,6 +134,7 @@ def get_mentors():
     return jsonify(result)
 
 @mentors.route('/mentor/logout', methods=['GET'])
+@jwt_required()
 def mentee_logout():
     '''
         mentor logout route
