@@ -24,13 +24,13 @@ def mentee_register():
         age = data['age']
         gender = data['gender']
         email = data['email']
-        password = data['hashed_password']
+        password = data['password']
         username = data['username']
         interests = data['interests']
         
         
         if not user_present(email):
-            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            #hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             mentee = Mentee(
                     first_name=first_name,
                     last_name=last_name,
@@ -38,7 +38,7 @@ def mentee_register():
                     age=age,
                     gender=gender,
                     username=username,
-                    password=hashed_password,
+                    password=password,
                     interests=interests
                     )
 
@@ -123,10 +123,10 @@ def mentor_register():
     age = data.get("age")
     username = data.get("username")
     gender = data.get("gender")
-    password = data.get("hashed_password")
+    password = data.get("password")
     expertise = data.get("expertise")
     
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    #password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     new_mentor = Mentor(
             first_name=first_name,
@@ -136,7 +136,7 @@ def mentor_register():
             username=username,
             gender=gender, 
             expertise=expertise, 
-            password=hashed_password
+            password=password
             )
 
     try:
