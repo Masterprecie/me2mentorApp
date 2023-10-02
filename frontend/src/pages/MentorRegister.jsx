@@ -11,7 +11,7 @@ const defaultValues = {
 	password: '',
 	password_hash: '',
 	expertise: '',
-	experience: null,
+	experience: '',
 	profile_picture: '',
 }
 
@@ -39,7 +39,7 @@ const MentorRegister = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/api/blp_users/mentor_register', formData);
+			const response = await axios.post('http://localhost:5000/api/mentors/mentor_register', formData);
 
 			if (response.status === 200) {
 				console.log('Registration successful');

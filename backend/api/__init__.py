@@ -29,10 +29,12 @@ def create_app(config_class=Config):
 
     # circular import prevention #
     from api.main import main
-    from api.mentormentee import blp_users
+    from api.mentee import mentees
+    from api.mentor import mentors
 
     # Flask blueprint register
     app.register_blueprint(main, url_prefix='/api/main')
-    app.register_blueprint(blp_users, url_prefix='/api/blp_users')
+    app.register_blueprint(mentees, url_prefix='/api/mentees')
+    app.register_blueprint(mentors, url_prefix='/api/mentors')
 
     return app

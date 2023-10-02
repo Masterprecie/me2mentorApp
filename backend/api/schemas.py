@@ -10,7 +10,7 @@ class MenteeSchema(ma.SQLAlchemyAutoSchema):
     '''
         mentee model schema
     '''
-    mentee_id = fields.Int()
+    id = fields.Int()
     first_name = fields.Str()
     last_name = fields.Str()
     age = fields.Int()
@@ -37,7 +37,7 @@ class MentorSchema(ma.SQLAlchemyAutoSchema):
     '''
         mentor model schema
     '''
-    mentor_id = fields.Int(dump_only=True)
+    id = fields.Int(dump_only=True)
     first_name = fields.Str()
     last_name = fields.Str()
     age = fields.Int()

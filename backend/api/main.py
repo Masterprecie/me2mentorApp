@@ -10,16 +10,16 @@ all_users = {'mentees': Mentee, 'mentors': Mentor}
 
 def user_present(email: str) -> bool:
     '''
-      function to check if the user(mentor or mentee) is present in the db
+        function to check if the user(mentor or mentee) is present in the db
     '''
     for user_type, user_value in all_users.items():
-        real = user_value.query.filter_by(email_address=email).first()
+        real = user_value.query.filter_by(email=email).first()
         if real:
             return [real, user_type]
     return None
 
 
-@main.route('/', methods=['GET'], strict_slashes=False)
+@main.route('/', methods=['GET'])
 def index():
     """ JSON file """
     return jsonify({'Status': 'Ok'}), 200
