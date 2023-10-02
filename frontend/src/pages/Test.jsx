@@ -35,7 +35,7 @@ const Test = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/api/register', formData);
+			const response = await axios.post('http://localhost:5000/api/blp_users/mentee_register', formData);
 
 			if (response.status === 201) {
 				console.log('Registration successful');
