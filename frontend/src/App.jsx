@@ -10,7 +10,7 @@ import Services from './pages/Services'
 import AllMentors from './pages/AllMentors'
 import MentorDetails from './pages/MentorDetails'
 import Login from './pages/Login'
-import Test from './pages/Test'
+
 
 
 const App = () => {
@@ -19,7 +19,6 @@ const App = () => {
 
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/test' element={<Test />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<About />} />
         <Route path='/blog' element={<Blog />} />

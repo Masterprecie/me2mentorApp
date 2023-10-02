@@ -19,11 +19,13 @@ const MenteeRegister = () => {
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
+		const newValue = name === 'age' ? parseInt(value, 10) : value;
 		setFormData({
 			...formData,
-			[name]: value,
+			[name]: newValue,
 		});
 	};
+
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
@@ -36,7 +38,7 @@ const MenteeRegister = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/api/register', formData);
+			const response = await axios.post('http://localhost:5000/api/blp_users/mentee_register', formData);
 
 			if (response.status === 201) {
 				console.log('Registration successful');
@@ -140,8 +142,8 @@ const MenteeRegister = () => {
 							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 					<div>
-						<label htmlFor="qualification" className="block text-lg font-semibold"> Interests </label>
-						<input type="password"
+						<label htmlFor="Interest" className="block text-lg font-semibold"> Interests </label>
+						<input type="text"
 							name="interests"
 							value={formData.interests}
 							onChange={handleInputChange}

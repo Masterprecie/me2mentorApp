@@ -20,11 +20,13 @@ const MentorRegister = () => {
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
+		const newValue = name === 'age' || name === 'experience' ? parseInt(value, 10) : value;
 		setFormData({
 			...formData,
-			[name]: value,
+			[name]: newValue,
 		});
 	};
+
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
@@ -37,7 +39,7 @@ const MentorRegister = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/api/register', formData);
+			const response = await axios.post('http://localhost:5000/api/blp_users/mentor_register', formData);
 
 			if (response.status === 201) {
 				console.log('Registration successful');
@@ -97,7 +99,7 @@ const MentorRegister = () => {
 
 					<div>
 						<label htmlFor="email" className="block text-lg font-semibold"> Gender </label>
-						<select name="gender" id=""
+						<select name="gender"
 							value={formData.gender}
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
@@ -115,6 +117,7 @@ const MentorRegister = () => {
 							onChange={handleInputChange}
 							placeholder="Email" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
+
 					<div>
 						<label htmlFor="age" className="block text-lg font-semibold"> Age </label>
 						<input type="number"
@@ -141,8 +144,8 @@ const MentorRegister = () => {
 							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 					<div>
-						<label htmlFor="qualification" className="block text-lg font-semibold"> Interests </label>
-						<select name="interests" id=""
+						<label htmlFor="interest" className="block text-lg font-semibold"> Interests </label>
+						<select name="interests"
 							value={formData.interests}
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
@@ -153,7 +156,7 @@ const MentorRegister = () => {
 					</div>
 
 					<div>
-						<label htmlFor="age" className="block text-lg font-semibold"> Experience </label>
+						<label htmlFor="experience" className="block text-lg font-semibold"> Experience </label>
 						<input type="number"
 							name="experience"
 							value={formData.experience}
@@ -163,7 +166,7 @@ const MentorRegister = () => {
 
 					<div>
 						<label htmlFor="expertise" className="block text-lg font-semibold"> Expertise </label>
-						<select name="expertise" id=""
+						<select name="expertise"
 							value={formData.expertise}
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
