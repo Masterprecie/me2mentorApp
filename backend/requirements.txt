@@ -1,9 +1,9 @@
 Flask
-Flask-Sqlalchmey
+Flask-Sqlalchemy
 Flask-Bcrypt
 Flask-Marshmallow
 Marshmallow
-Marshmallow-Sqlalchmey
+Marshmallow-Sqlalchemy
 Flask-Cors
 Flask-jwt
 Flask-smorest

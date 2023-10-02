@@ -1,10 +1,10 @@
 """ installed package imports """
 from flask import Flask
-from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow import Marshmallow
+from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
-from api import Config
+from flask_cors import CORS
+from config import Config
 
 
 
