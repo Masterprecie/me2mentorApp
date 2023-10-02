@@ -107,3 +107,21 @@ class MenteeMentor(db.Model):
     mentee_mentor_id = db.Column(db.Integer, primary_key=True)
     mentee_id = db.Column(db.Integer, db.ForeignKey('mentees.id'))
     mentor_id = db.Column(db.Integer, db.ForeignKey('mentors.id'))
+
+
+class ContactUs(db.Model):
+    '''
+        contact us class to store information
+    '''
+    __tablename__ = 'contact'
+    id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    phone_number = db.Column(db.Integer, nullable=False)
+    message = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return(
+            f"Contact('{self.full_name}', '{self.email}', '{self.phone_number}')"
+            f"'{self.message}')"
+            )
