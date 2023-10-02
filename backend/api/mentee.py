@@ -1,7 +1,7 @@
 '''
     mentee - mentor imports
 '''
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, redirect, session, url_for
 from api import db
 from api.main import user_present
 from api.models import Mentee
@@ -10,7 +10,7 @@ from passlib.hash import bcrypt_sha256
 from flask_jwt_extended import jwt_required
 
 
-mentees = Blueprint('users', __name__)
+mentees = Blueprint('mentees', __name__)
 
 
 @mentees.route("/mentee_register", methods=["POST"])
@@ -86,7 +86,9 @@ def single_mentee(id):
 
 @mentees.route("/all_mentees", methods=['GET'])
 def get_mentees():
-    '''function to get all mentees in the database'''
+    '''
+        function to get all mentees in the database
+    '''
     all_mentees = Mentee.query.all()
     result = mentees_schema.dump(all_mentees)
     return jsonify(result)
@@ -95,9 +97,9 @@ def get_mentees():
 @mentees.route("/updateMentee/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_mentee():
-    """
-    Updates the mentee details
-    """
+    '''
+        Updates the mentee details
+    '''
     mentee = Mentee.query.get(id)
     if not mentee:
         return jsonify({'msg': 'User does not exist'})
@@ -117,4 +119,15 @@ def update_mentee():
         print(error)
         return jsonify({'error': 'An error occurred'}), 500
 
+@mentees.route('/mentee/logout', methods=['GET'])
+def mentee_logout():
+    '''
+        mentee logout route
+    '''
+    try:
+        
+        session.clear()
+        return redirect(url_for('mentee_login'))
 
+    except Exception as error:
+        return str(error), 400

@@ -1,7 +1,7 @@
 '''
     mentee - mentor imports
 '''
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, redirect, session, url_for
 from api import db
 from api.main import user_present
 from api.models import Mentor
@@ -10,11 +10,11 @@ from flask_jwt_extended import jwt_required
 from passlib.hash import bcrypt_sha256
 
 
-mentors = Blueprint('users', __name__)
+mentors = Blueprint('mentors', __name__)
 
 @mentors.route("/getMentors/<int:id>", methods=["GET"])
 @jwt_required()
-def single_mentor(id):
+def single_mentor():
     '''
         method to get a single mentor
     '''
@@ -31,10 +31,9 @@ def mentor_register():
     data = request.get_json()
 
     email = data.get("email")
-    
     if user_present(email):
         return jsonify({'error' : 'email already exists'}), 400
-    
+
     first_name = data.get("first_name")
     last_name = data.get("last_name")
     age = data.get("age")
@@ -43,7 +42,7 @@ def mentor_register():
     plain_password = data.get("password")
     expertise = data.get("expertise")
     experience = data.get("experience")
-    
+
     hashed_password = bcrypt_sha256.hash(plain_password)
 
     new_mentor = Mentor(
@@ -52,9 +51,9 @@ def mentor_register():
             age=age,
             email=email,
             username=username,
-            gender=gender, 
+            gender=gender,
             expertise=expertise,
-            experience=experience, 
+            experience=experience,
             password=hashed_password
             )
 
@@ -83,14 +82,14 @@ def mentor_login():
             return jsonify({'message': 'Login Successful'}), 200
         else:
             return jsonify({'message': 'Login failed'}), 401
-    
+
     except Exception as error:
         return jsonify({"error": str(error)}), 400
 
 
 @mentors.route("/update_mentor/<int:id>", methods=["PUT"])
 @jwt_required()
-def update_mentor(id):
+def update_mentor():
     '''
         route to update the mentor
     '''
@@ -104,7 +103,7 @@ def update_mentor(id):
         mentor.gender = data.get("gender", mentor.gender)
         mentor.email = data.get("email", mentor.email)
         mentor.expertise = data.get("expertise", mentor.expertise)
-        
+
 
         db.session.commit()
         return jsonify({"message": "mentor updated successfully"}), 200
@@ -115,7 +114,7 @@ def update_mentor(id):
 
 @mentors.route("/delete_mentor/<int:id>", methods=["DELETE"])
 @jwt_required()
-def delete_mentor(id):
+def delete_mentor():
     '''
         route to delete a specific mentor
     '''
@@ -135,3 +134,15 @@ def get_mentors():
     all_mentors = Mentor.query.all()
     result = mentors_schema.dump(all_mentors)
     return jsonify(result)
+
+@mentors.route('/mentor/logout', methods=['GET'])
+def mentee_logout():
+    '''
+        mentor logout route
+    '''
+    try:
+        session.clear()
+        return redirect(url_for('mentor_login'))
+
+    except Exception as error:
+        return str(error), 400
