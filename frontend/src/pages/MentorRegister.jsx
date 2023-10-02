@@ -39,7 +39,7 @@ const MentorRegister = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/api/blp_users/mentor_register', formData);
+			const response = await axios.post('http://localhost:5000/api/mentors/mentor_register', formData);
 
 			if (response.status === 201) {
 				console.log('Registration successful');
