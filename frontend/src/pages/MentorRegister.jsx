@@ -11,7 +11,7 @@ const defaultValues = {
 	password: '',
 	password_hash: '',
 	expertise: '',
-	experience: null,
+	experience: '',
 	profile_picture: '',
 }
 
