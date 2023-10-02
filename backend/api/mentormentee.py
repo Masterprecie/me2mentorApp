@@ -1,15 +1,12 @@
 '''
     mentee - mentor imports
 '''
-
-from datetime import datetime, date
 from api import db, bcrypt
-from flask import Blueprint, jsonify, abort, request
+from flask import Blueprint, jsonify, request
 from api.main import user_present
 from api.models import Mentor, Mentee
 from api.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 blp_users = Blueprint('users', __name__)
 
@@ -22,12 +19,12 @@ def mentee_register():
 
     try:
         data = request.get_json()
-        email = data['email']
-        password = data['hashed_password']
         first_name = data['first_name']
         last_name = data['last_name']
         age = data['age']
         gender = data['gender']
+        email = data['email']
+        password = data['hashed_password']
         username = data['username']
         interests = data['interests']
         
@@ -50,8 +47,8 @@ def mentee_register():
             return jsonify({'status' : 'Mentee added successfully'}), 200
 
         return jsonify({'message': 'mentee already exists'})
-    except Exception as e:
-        return jsonify({"error": str(e)}) 
+    except Exception as error:
+        return jsonify({"error": str(error)}) 
 
 
 @blp_users.route('/mentee/<int:mentee_id>', methods=['GET'])
@@ -93,8 +90,8 @@ def update_mentee():
 
         db.session.commit()
         return jsonify({'status' : 'mentee successfully updated'}), 200
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(error)
         return jsonify({'error': 'An error occurred'}), 500
 
 
@@ -136,17 +133,18 @@ def mentor_register():
             last_name=last_name,
             age=age,
             email=email,
+            username=username,
             gender=gender, 
             expertise=expertise, 
-            password=hashed_password,
+            password=hashed_password
             )
 
     try:
         db.session.add(new_mentor)
         db.session.commit()
         return jsonify({"message": "Mentor joined successfully"}), 201
-    except Exception as err:
-        print(str(err))
+    except Exception as error:
+        print(str(error))
         return jsonify({"message": "Failed to add mentor"}), 500
 
 
@@ -164,18 +162,18 @@ def update_mentor(id):
         mentor.first_name = data.get("first_name", mentor.first_name)
         mentor.last_name = data.get("last_name", mentor.last_name)
         mentor.gender = data.get("gender", mentor.gender)
-        mentor.email_address = data.get("email_address", mentor.email_address)
+        mentor.email = data.get("email", mentor.email)
         mentor.expertise = data.get("expertise", mentor.expertise)
         
 
         db.session.commit()
         return jsonify({"message": "mentor updated successfully"}), 200
-    except Exception as e:
-        print(e)
+    except Exception as error:
+        print(error)
         return jsonify({"message": " an error occured"}), 500
 
 
-@blp_users.route("/delete_mentor/<int:id>", methods=["DELETE"], strict_slashes=False)
+@blp_users.route("/delete_mentor/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_mentor(id):
     '''
@@ -197,4 +195,3 @@ def get_mentors():
     all_mentors = Mentor.query.all()
     result = mentors_schema.dump(all_mentors)
     return jsonify(result)
-

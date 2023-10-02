@@ -1,7 +1,7 @@
 from flask import request, jsonify, Blueprint, session
-from mentorapp import db, bcrypt
-from backend.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
-from mentorapp.models import Mentor, Mentee
+from api import db, bcrypt
+from api.models import Mentor, Mentee
+from backend.api.schemas import mentee_schema, mentees_schema, mentor_schema, mentors_schema
 
 
 api = Blueprint('api', __name__)
