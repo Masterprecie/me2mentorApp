@@ -13,36 +13,16 @@ const defaultValues = {
 	profile_picture: '',
 }
 
-
-const MenteeRegister = () => {
-	const [errors, setErrors] = useState({});
-	const [passwordMatchError, setPasswordMatchError] = useState('');
-
+const Test = () => {
 	const [formData, setFormData] = useState(defaultValues);
-	console.log(formData)
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-
-		setErrors({
-			...errors,
-			[name]: '', // Clears the error for the field
+		setFormData({
+			...formData,
+			[name]: value,
 		});
-
-		if (name === 'age' && value.trim() !== '') {
-			// Parse the age value as an integer
-			setFormData({
-				...formData,
-				[name]: parseInt(value, 10), // Use base 10 for parsing
-			});
-		} else {
-			setFormData({
-				...formData,
-				[name]: value,
-			});
-		}
 	};
-
 
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
@@ -52,63 +32,30 @@ const MenteeRegister = () => {
 		});
 	};
 
-	const validateForm = () => {
-		const newErrors = {};
-		// Check if fields are empty
-		for (const key in formData) {
-			if (!formData[key]) {
-				newErrors[key] = 'This field is required';
-			}
-		}
-
-		// Check if passwords match
-		if (formData.password !== formData.password_hash) {
-			setPasswordMatchError("Passwords do not match");
-			newErrors.password_hash = 'Passwords do not match';
-		} else {
-			setPasswordMatchError('');
-		}
-
-		setErrors(newErrors);
-
-		// Return true if there are no errors, indicating a valid form
-		return Object.keys(newErrors).length === 0;
-
-	};
-
-
-
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (validateForm()) {
-			try {
-				const response = await axios.post('http://localhost:5000/api/register', formData);
+		try {
+			const response = await axios.post('http://localhost:5000/api/register', formData);
 
-				if (response.status === 201) {
-					console.log('Registration successful');
-					const data = response.data;
-					console.log('Response data:', data);
-					// Redirect to the home page (adjust the URL as needed)
-					window.location.href = '/'; // You can use React Router here if applicable
-				} else if (response.status === 400) {
-					// Handle validation errors and display error messages to the user
-					const errorData = response.data;
-					console.error('Registration failed:', errorData.message);
-					// Update the state to display error messages to the user
-					setErrors(errorData.errors);
-				} else {
-					// Handle other error cases (e.g., server errors) and show a generic error message
-					console.error('Registration failed');
-					// Display a generic error message to the user
-				}
-			} catch (error) {
-				console.error('Error:', error);
-				// Handle network errors or other exceptions and display an error message to the user
+			if (response.status === 201) {
+				console.log('Registration successful');
+				const data = response.data;
+				console.log('Response data:', data);
+				// Redirect to the home page (adjust the URL as needed)
+				window.location.href = '/'; // You can use React Router here if applicable
+			} else if (response.status === 400) {
+				// Handle validation errors and display error messages to the user
+				const errorData = response.data;
+				console.error('Registration failed:', errorData.message);
+			} else {
+				// Handle other error cases (e.g., server errors) and show a generic error message
+				console.error('Registration failed');
 			}
+		} catch (error) {
+			console.error('Error:', error);
+			// Handle network errors or other exceptions and display an error message to the user
 		}
 	};
-
 
 	return (
 		<div className="w-full bg-gray-200 h-full flex flex-col justify-center py-10">
@@ -126,9 +73,6 @@ const MenteeRegister = () => {
 							value={formData.first_name}
 							onChange={handleInputChange}
 							placeholder="Enter your First Name" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.first_name && (
-							<span className="text-red-600">{errors.first_name}</span>
-						)}
 					</div>
 
 					<div>
@@ -139,9 +83,6 @@ const MenteeRegister = () => {
 							value={formData.last_name}
 							onChange={handleInputChange}
 							placeholder="Enter your Last Name" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.last_name && (
-							<span className="text-red-600">{errors.last_name}</span>
-						)}
 					</div>
 					<div>
 						<label htmlFor="userName" className="block text-lg font-semibold"> Username </label>
@@ -150,9 +91,6 @@ const MenteeRegister = () => {
 							value={formData.username}
 							onChange={handleInputChange}
 							placeholder="Enter your username" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.username && (
-							<span className="text-red-600">{errors.username}</span>
-						)}
 					</div>
 
 					<div>
@@ -162,9 +100,6 @@ const MenteeRegister = () => {
 							value={formData.email}
 							onChange={handleInputChange}
 							placeholder="Email" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.email && (
-							<span className="text-red-600">{errors.email}</span>
-						)}
 					</div>
 					<div>
 						<label htmlFor="age" className="block text-lg font-semibold"> Age </label>
@@ -173,9 +108,6 @@ const MenteeRegister = () => {
 							value={formData.age}
 							onChange={handleInputChange}
 							placeholder="Age" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.age && (
-							<span className="text-red-600">{errors.age}</span>
-						)}
 					</div>
 
 					<div>
@@ -185,24 +117,14 @@ const MenteeRegister = () => {
 							value={formData.password}
 							onChange={handleInputChange}
 							placeholder="Password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.password && (
-							<span className="text-red-600">{errors.password}</span>
-						)}
-						{passwordMatchError && (
-							<span className="text-red-600">{passwordMatchError}</span>
-						)}
 					</div>
 					<div>
-						<label htmlFor="password" className="block text-lg font-semibold"> Comfirm Password </label>
+						<label htmlFor="password" className="block text-lg font-semibold"> Confirm Password </label>
 						<input type="password"
 							name="password_hash"
 							value={formData.password_hash}
 							onChange={handleInputChange}
-							placeholder="Comfirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-						{errors.password_hash && (
-							<span className="text-red-600">{errors.password_hash}</span>
-						)}
-
+							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
 					</div>
 					<div>
 						<label htmlFor="qualification" className="block text-lg font-semibold"> Interests </label>
@@ -210,7 +132,6 @@ const MenteeRegister = () => {
 							value={formData.interests}
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
-
 							<option value=""></option>
 							<option value="Option 1">Option 1</option>
 							<option value="Option 2">Option 2</option>
@@ -220,11 +141,9 @@ const MenteeRegister = () => {
 					<div>
 						<label htmlFor="picture" className="block text-lg font-semibold"> Profile Picture </label>
 						<input
-
 							type="file"
 							onChange={handleFileChange}
 							className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
-
 					</div>
 
 					<div className="text-center w-full col-span-2 pt-3">
@@ -232,10 +151,8 @@ const MenteeRegister = () => {
 					</div>
 				</form>
 			</div>
-
 		</div>
-
 	)
 }
 
-export default MenteeRegister
+export default Test;
