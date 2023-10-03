@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
 	const loginMentee = async (username, password) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/login/mentee', {
+			const response = await axios.post('http://localhost:5000/api/mentees/login', {
 				username,
 				password,
 			});
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
 	const loginMentor = async (username, password) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/login/mentor', {
+			const response = await axios.post('http://localhost:5000/api/mentors/login', {
 				username,
 				password,
 			});
