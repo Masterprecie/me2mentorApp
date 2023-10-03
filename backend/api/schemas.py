@@ -19,7 +19,6 @@ class MenteeSchema(ma.SQLAlchemyAutoSchema):
     username = fields.Str()
     profile_picture = fields.Str()
     interests = fields.Str()
-    password_hash = fields.Str()
 
     @post_load
     def make_mentee(self, data, **kwargs):

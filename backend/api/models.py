@@ -125,3 +125,19 @@ class ContactUs(db.Model):
             f"Contact('{self.full_name}', '{self.email}', '{self.phone_number}')"
             f"'{self.message}')"
             )
+
+
+class Admin(db.Model):
+    '''
+        Admin class to manage mentors and mentees
+    '''
+    __tablename__ = 'admins'
+    id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+    def __repr__(self):
+        return f"Contact('{self.full_name}', '{self.email}', '{self.username}')"
+    
