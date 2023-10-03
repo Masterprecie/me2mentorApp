@@ -25,45 +25,41 @@ def single_mentor():
 @mentors.route("/mentor_register", methods=["POST"])
 def mentor_register():
     '''
-        a register function for the mentors
+        a register function for the mentor route
     '''
-    data = request.get_json()
-
-    email = data.get("email")
-    if user_present(email):
-        return jsonify({'error' : 'email already exists'}), 400
-
-    first_name = data.get("first_name")
-    last_name = data.get("last_name")
-    age = data.get("age")
-    username = data.get("username")
-    gender = data.get("gender")
-    plain_password = data.get("password")
-    expertise = data.get("expertise")
-    experience = data.get("experience")
-
-    hashed_password = bcrypt_sha256.hash(plain_password)
-
-    new_mentor = Mentor(
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            email=email,
-            username=username,
-            gender=gender,
-            expertise=expertise,
-            experience=experience,
-            password=hashed_password
-            )
 
     try:
-        db.session.add(new_mentor)
-        db.session.commit()
-        return jsonify({"message": "Mentor joined successfully"}), 201
-    except Exception as error:
-        print(str(error))
-        return jsonify({"message": "Failed to add mentor"}), 500
+        data = request.get_json()
+        first_name = data['first_name']
+        last_name = data['last_name']
+        age = data['age']
+        gender = data['gender']
+        email = data['email']
+        plain_password = data['password']
+        username = data['username']
+        expertise = data['expertise']
+        
+        hashed_password = bcrypt_sha256.hash(plain_password)
 
+        if not user_present(email):
+            mentor = Mentor(
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    age=age,
+                    gender=gender,
+                    username=username,
+                    password=hashed_password,
+                    expertise=expertise
+                    )
+
+            db.session.add(mentor)
+            db.session.commit()
+            return jsonify({'status' : 'Mentor added successfully'}), 200
+
+        return jsonify({'message': 'mentor already exists'})
+    except Exception as error:
+        return jsonify({"error": str(error)})
 
 @mentors.route('/login', methods=['POST'])
 def mentor_login():

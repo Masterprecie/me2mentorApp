@@ -60,10 +60,10 @@ def mentee_login():
     '''
     try:
         data = request.get_json()
-        email = data['email']
+        username = data['username']
         plain_password = data['password']
 
-        mentee = Mentee.query.filter_by(email=email).first()
+        mentee = Mentee.query.filter_by(username=username).first()
 
         if mentee and bcrypt_sha256.verify(plain_password, mentee.password):
             return jsonify({'message': 'Login Successful'}), 200
