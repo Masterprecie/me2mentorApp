@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const defaultValues = {
 	first_name: '',
@@ -16,6 +17,7 @@ const defaultValues = {
 }
 
 const MentorRegister = () => {
+	const navigate = useNavigate()
 	const [formData, setFormData] = useState(defaultValues);
 
 	const handleInputChange = (e) => {
@@ -45,8 +47,7 @@ const MentorRegister = () => {
 				console.log('Registration successful');
 				const data = response.data;
 				console.log('Response data:', data);
-				// Redirect to the home page (adjust the URL as needed)
-				window.location.href = '/'; // You can use React Router here if applicable
+				navigate('/mentor-login')
 			} else if (response.status === 400) {
 				// Handle validation errors and display error messages to the user
 				const errorData = response.data;

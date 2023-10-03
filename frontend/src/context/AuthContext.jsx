@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import PropTypes from 'prop-types'
-import axios from "axios";
+import { createContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -10,20 +10,20 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const storedUser = JSON.parse(localStorage.getItem('user'));
 		if (storedUser) {
-			setUser(storedUser)
+			setUser(storedUser);
 		}
 	}, []);
 
-	const login = async (username, password) => {
+	const loginMentee = async (username, password) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/login', {
+			const response = await axios.post('http://localhost:5000/api/mentees/login', {
 				username,
-				password
+				password,
 			});
 
 			if (response.status === 200) {
 				const userData = response.data;
-				setUser(userData);
+				setUser({ ...userData, role: 'mentee' });
 				// Store user data in local storage upon successful login
 				localStorage.setItem('user', JSON.stringify(userData));
 				return true;
@@ -31,25 +31,45 @@ export const AuthProvider = ({ children }) => {
 				return false;
 			}
 		} catch (error) {
-			console.error('Login error', error);
-			return false
+			console.error('Mentee Login error', error);
+			return false;
 		}
-	}
+	};
+
+	const loginMentor = async (username, password) => {
+		try {
+			const response = await axios.post('http://localhost:5000/api/mentors/login', {
+				username,
+				password,
+			});
+
+			if (response.status === 200) {
+				const userData = response.data;
+				setUser({ ...userData, role: 'mentor' });
+				// Store user data in local storage upon successful login
+				localStorage.setItem('user', JSON.stringify(userData));
+				return true;
+			} else {
+				return false;
+			}
+		} catch (error) {
+			console.error('Mentor Login error', error);
+			return false;
+		}
+	};
 
 	const logout = () => {
-		setUser(null)
-		localStorage.removeItem('user')
+		setUser(null);
+		localStorage.removeItem('user');
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
+		<AuthContext.Provider value={{ user, loginMentee, loginMentor, logout }}>
 			{children}
 		</AuthContext.Provider>
-	)
-
-
-}
+	);
+};
 
 AuthProvider.propTypes = {
-	children: PropTypes.node
-}
+	children: PropTypes.node,
+};

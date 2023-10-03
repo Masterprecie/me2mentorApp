@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useAuth } from "../context/UseAuth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/UseAuth";
 
-const Login = () => {
-	const { login } = useAuth();
+const MenteeLogin = () => {
+	const { loginMentee } = useAuth();
 	const navigate = useNavigate()
 	const [formData, setFormData] = useState({
 		username: "",
@@ -23,7 +23,7 @@ const Login = () => {
 		const { username, password } = formData;
 
 		// Call the login function from the context
-		const success = await login(username, password);
+		const success = await loginMentee(username, password);
 
 		if (success) {
 			console.log('Login successful');
@@ -38,7 +38,7 @@ const Login = () => {
 		<div className="w-full bg-gray-200 h-[100vh] flex flex-col justify-center py-10">
 			<div className="mx-auto lg:w-1/2 w-11/12 bg-white text-black p-5 rounded-md">
 				<div className="text-center pb-6">
-					<h4 className="font-semibold text-3xl">Login</h4>
+					<h4 className="font-semibold text-3xl">Mentee Login</h4>
 				</div>
 				<form onSubmit={handleSubmit}>
 					<div>
@@ -84,4 +84,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default MenteeLogin;
