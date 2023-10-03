@@ -18,6 +18,7 @@ class MenteeSchema(ma.SQLAlchemyAutoSchema):
     password = fields.Str(required=True, load_only=True)
     username = fields.Str()
     profile_picture = fields.Str()
+    gender = fields.Str()
     interests = fields.Str()
 
     @post_load
