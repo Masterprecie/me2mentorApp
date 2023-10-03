@@ -6,7 +6,7 @@ bookAppointment
 cancelAppointment
 rescheduleAppointment
 
-Routes for doctors schedule like
+Routes for mentors schedule like
 addSchedule
 editSchedule
 deleteSchedule
@@ -128,7 +128,6 @@ def createTimeSlot():
 
 
 @bookings.route('/updateTimeSlot/<int:id>', methods=['PUT'], strict_slashes=False)
-# @jwt_required()
 def updateTimeSlot(id):
     '''
       update time slot
@@ -186,7 +185,6 @@ def updateTimeSlot(id):
 
 
 @bookings.route('/delTimeSlot/<int:id>', methods=['DELETE'], strict_slashes=False)
-# @jwt_required()
 def delTimeSlot(id):
     time_slot = TimeSlots.query.get(id)
     
@@ -212,9 +210,6 @@ def availTimeSlots():
     """
     # Extract date from request object
     try:
-        # data = request.get_json()
-        # date_str = data.get('dateChoosen')
-
         date_str = request.args.get('dateChoosen')
 
         if date_str is None:
@@ -252,38 +247,27 @@ def availTimeSlots():
         # Create available timeslot list for date selected
         for timeSlot in matchedTimeSlots:
     
-            doctorAppts = Appointment.query.filter(
+            mentorAppts = Appointment.query.filter(
                         Appointment.mentor_id==timeSlot.mentor_id,
                         Appointment.timeslot_id==timeSlot.id,
-                        Appointment.date_of_appointment==date.date(),
+                        Appointment.appointment_date==date.date(),
                         Appointment.status=='Scheduled'
                     ).all()
 
-            print(f"{doctorAppts}")
+            print(f"{mentorAppts}")
             print(f"{date}")
 
             # Get doctor with schedule information
-            doctor = Doctors.query.get(timeSlot.mentor_id)
+            mentor = Mentor.query.get(timeSlot.mentor_id)
         
-            # Get doctors with exception on the choosen date
-            exception = Exceptions.query.filter_by(
-                        mentor_id=timeSlot.mentor_id,
-                        date_of_exception=date
-                    ).first()
-
-            # Exclude doctors with exceptions
-            if exception:
-                continue
-        
-            # Create a dictionary with doctor schedule
+            # Create a dictionary with mentor schedule
             timeslot_item = {
                 'time slot id' : timeSlot.id,
                 'slot day' : timeSlot.agreed_day,
                 'start time' : timeSlot.start_time.strftime('%H:%M %p'),
                 'end time' : timeSlot.end_time.strftime('%H:%M %p'),
-                'doctor id' : timeSlot.mentor_id,
-                'doctor name' : f"{doctor.first_name} {doctor.last_name} {doctor.other_name}",
-                'Patients on queue' : len(doctorAppts)
+                'mentor id' : timeSlot.mentor_id,
+                'mentor name' : f"{mentor.first_name} {mentor.last_name} {mentor.other_name}"
                 }
 
             # Append schedule to all schedules
@@ -300,28 +284,21 @@ def availTimeSlots():
 def bookAppointment():
     """
     Book an appointment
-
-    Args:
-        Json - containing all appointment details
-
-    Return:
-        dict - JSON dictionary with status of book
     """
     # Get data from request
     try:
         data = request.get_json()
     
         mentor_id = data.get('mentor_id')
-        patient_id = data.get('patient_id')
+        mentee_id = data.get('mentee_id')
         timeslot_id = data.get('timeslot_id')
-        date_of_appointment = data.get('date')
-        notes = data.get('notes')
+        appointment_date = data.get('date')
 
-        if mentor_id is None or patient_id is None or timeslot_id is None or date_of_appointment is None:
-            return jsonify({'error' : 'doctor id, patient id, timeslot id and date of appointment are required'}), 400
+        if mentor_id is None or mentee_id is None or timeslot_id is None or appointment_date is None:
+            return jsonify({'error' : 'mentor id, mentee id, timeslot id and date of appointment are required'}), 400
         
         try:
-            apptDate = datetime.strptime(date_of_appointment, '%Y-%m-%d')
+            apptDate = datetime.strptime(appointment_date, '%Y-%m-%d')
 
         except ValueError as date_conversion_error:
             return jsonify({"error" : f"Invalid date format {date_conversion_error}"}), 400
@@ -329,10 +306,9 @@ def bookAppointment():
 
         newAppt = Appointment(
             mentor_id=mentor_id,
-            patient_id=patient_id,
+            mentor_id=mentor_id,
             timeslot_id=timeslot_id,
-            date_of_appointment=apptDate,
-            notes=notes
+            appointment_date=apptDate,
             )
     
         db.session.add(newAppt)
@@ -353,13 +329,6 @@ def bookAppointment():
 def cancelAppt(id):
     """
     Cancel an appointment
-
-    Args:
-        id - Appointment id
-
-    Return:
-        JSON - Status of operation
-
     """
     try:
         appointment = Appointment.query.get(id)
@@ -404,14 +373,7 @@ def completeAppt(id):
 @bookings.route('/getAppt/<int:id>', methods=['GET'], strict_slashes=False)
 def getAppointment(id):
     """
-    Return an appointment data
-
-    Args:
-        id - id of the requested appointment
-
-    Return:
-        Dict - dictionary of appointment data
-
+    Returns a single appointment data
     """
     try:
     # Get appointment from database
@@ -426,7 +388,7 @@ def getAppointment(id):
             'appointment id' : appointment.id,
             'mentee id' : appointment.mentee_id,
             'mentor id' : appointment.mentor_id,
-            'date' : datetime.strftime(appointment.date_of_appointment, '%Y-%m-%d'),
+            'date' : datetime.strftime(appointment.appointment_date, '%Y-%m-%d'),
             'time id' : appointment.timeslot_id, # dateime.isoformat(timeSlot.time.time())
             'status' : appointment.status
             }), 200
@@ -438,13 +400,7 @@ def getAppointment(id):
 @bookings.route('/getMentorAppts/', methods=['GET'], strict_slashes=False)
 def getMentorAppt():
     """
-    Get a doctors appointments
-
-    Args:
-        id - Doctor's id
-
-    Return:
-        List - list of dictionaries of a doctor's appointments
+    Get a mentor's appointment
     """
     try:
         data = request.get_json()
@@ -457,7 +413,7 @@ def getMentorAppt():
 
         mentorAppts = [{
                         'appointment_id' : appointment.id,
-                        'appointment date' : datetime.strftime(appointment.date_of_appointment, '%Y-%m-%d'),
+                        'appointment date' : datetime.strftime(appointment.appointment_date, '%Y-%m-%d'),
                         'mentor id' : appointment.mentor_id,
                         'mentee id' : appointment.mentor_id,
                         'time id' : appointment.timeslot_id,
@@ -481,12 +437,11 @@ def getAllAppt():
 
         appts = [
                 {'appointment_id' : appointment.id,
-                'appointment date' : datetime.strftime(appointment.date_of_appointment, '%Y-%m-%d'),
-                'doctor id' : appointment.mentor_id,
-                'patient id' : appointment.patient_id,
+                'appointment date' : datetime.strftime(appointment.appointment_date, '%Y-%m-%d'),
+                'mentor id' : appointment.mentor_id,
+                'mentee id' : appointment.mentor_id,
                 'time slot id' : appointment.timeslot_id,
                 'status' : appointment.status,
-                'notes' : appointment.notes
                 } 
                 for appointment in appointments
                 ]
