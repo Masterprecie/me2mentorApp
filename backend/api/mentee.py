@@ -53,7 +53,7 @@ def mentee_register():
         return jsonify({"error": str(error)})
 
 
-@mentees.route('/mentee/login', methods=['POST'])
+@mentees.route('/login', methods=['POST'])
 def mentee_login():
     '''
         mentee login route
@@ -74,7 +74,7 @@ def mentee_login():
         return jsonify({"error": str(error)}), 400
 
 
-@mentees.route('/mentee/<int:id>', methods=['GET'])
+@mentees.route('/<int:id>', methods=['GET'])
 @jwt_required()
 def single_mentee(id):
     '''
@@ -119,7 +119,7 @@ def update_mentee():
         print(error)
         return jsonify({'error': 'An error occurred'}), 500
 
-@mentees.route('/mentee/logout', methods=['GET'])
+@mentees.route('/logout', methods=['GET'])
 def mentee_logout():
     '''
         mentee logout route

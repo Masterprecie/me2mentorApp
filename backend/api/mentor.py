@@ -1,18 +1,19 @@
 '''
-    mentee - mentor imports
+    mentor imports
 '''
 from flask import Blueprint, jsonify, request, redirect, session, url_for
 from api import db
 from api.main import user_present
 from api.models import Mentor
 from api.schemas import mentor_schema, mentors_schema
-from flask_jwt_extended import jwt_required, create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt
 from passlib.hash import bcrypt_sha256
+
 
 
 mentors = Blueprint('mentors', __name__)
 
-@mentors.route("/getMentors/<int:id>", methods=["GET"])
+@mentors.route("/<int:id>", methods=["GET"])
 def single_mentor():
     '''
         method to get a single mentor
@@ -64,7 +65,7 @@ def mentor_register():
         return jsonify({"message": "Failed to add mentor"}), 500
 
 
-@mentors.route('/mentor/login', methods=['POST'])
+@mentors.route('/login', methods=['POST'])
 def mentor_login():
     '''
         mentor login route
@@ -133,7 +134,7 @@ def get_mentors():
     result = mentors_schema.dump(all_mentors)
     return jsonify(result)
 
-@mentors.route('/mentor/logout', methods=['GET'])
+@mentors.route('/logout', methods=['GET'])
 @jwt_required()
 def mentee_logout():
     '''
