@@ -17,7 +17,6 @@ getSchedules (single and multiple schedules)
 from api import db
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
-from flask_jwt_extended import jwt_required
 from sqlalchemy import or_, and_
 from api.models import Mentee, Mentor, Appointment, TimeSlots
 
@@ -26,7 +25,6 @@ bookings = Blueprint('bookings', __name__)
 
 
 @bookings.route('/getTimeSlot/<int:id>', methods=['GET'])
-# @jwt_required()
 def getTimeSlot(id):
     try:
         time_slot = TimeSlots.query.get(id)
@@ -46,7 +44,6 @@ def getTimeSlot(id):
 
 
 @bookings.route('/getTimeSlots', methods=['GET'], strict_slashes=False)
-# @jwt_required()
 def getTimeSlots():
     time_slots = TimeSlots.query.all()
     time_slots_data = [{
@@ -62,7 +59,6 @@ def getTimeSlots():
 
 
 @bookings.route("/addTimeSlot", methods=["POST"], strict_slashes=False)
-# @jwt_required()
 def createTimeSlot():
     try:
         data = request.get_json()
@@ -306,7 +302,7 @@ def bookAppointment():
 
         newAppt = Appointment(
             mentor_id=mentor_id,
-            mentor_id=mentor_id,
+            mentee_id=mentee_id,
             timeslot_id=timeslot_id,
             appointment_date=apptDate,
             )

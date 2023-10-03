@@ -38,6 +38,7 @@ def mentor_register():
         plain_password = data['password']
         username = data['username']
         expertise = data['expertise']
+        experience = data['experience']
         
         hashed_password = bcrypt_sha256.hash(plain_password)
 
@@ -50,7 +51,8 @@ def mentor_register():
                     gender=gender,
                     username=username,
                     password=hashed_password,
-                    expertise=expertise
+                    expertise=expertise,
+                    experience=experience
                     )
 
             db.session.add(mentor)
