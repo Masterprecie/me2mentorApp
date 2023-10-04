@@ -26,18 +26,16 @@ const MentorDetails = () => {
 	const handleBookingSubmit = (e) => {
 		e.preventDefault();
 
-		// Prepare the booking data to send to your backend API
+
 		const bookingData = {
 			date: selectedDate,
 			...bookingDetails,
 		};
 
-		// Send a POST request to your backend API to create the booking
-		// Replace 'your-api-endpoint' with the actual API endpoint
+
 		axios.post("http://localhost:5000/api/bookings", bookingData)
 			.then((response) => {
-				// Handle the response from your API
-				// You can display a success message to the user
+
 				console.log("Booking successful:", response.data);
 				// Optionally, you can reset the form and hide it
 				setSelectedDate(null);
