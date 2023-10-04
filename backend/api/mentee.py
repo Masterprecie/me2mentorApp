@@ -1,14 +1,15 @@
 '''
     mentee - mentor imports
 '''
+import os
 from flask import Blueprint, jsonify, request, redirect, session, url_for
 from api import db
 from api.main import user_present
 from api.models import Mentee
 from api.schemas import mentee_schema, mentees_schema
 from passlib.hash import bcrypt_sha256
+from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt
-
 
 mentees = Blueprint('mentees', __name__)
 
@@ -20,7 +21,8 @@ def mentee_register():
     '''
 
     try:
-        data = request.get_json()
+        data = request.form
+        profile_picture = request.files['profile_picture']
         first_name = data['first_name']
         last_name = data['last_name']
         age = data['age']
@@ -33,6 +35,12 @@ def mentee_register():
         hashed_password = bcrypt_sha256.hash(plain_password)
 
         if not user_present(email):
+
+            if profile_picture:
+                # Save the image to a folder
+                filename = secure_filename(profile_picture.filename)
+                profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
             mentee = Mentee(
                     first_name=first_name,
                     last_name=last_name,
