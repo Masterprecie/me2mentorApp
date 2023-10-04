@@ -7,7 +7,7 @@ from api.main import user_present
 from api.models import Mentee
 from api.schemas import mentee_schema, mentees_schema
 from passlib.hash import bcrypt_sha256
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt
 
 
 mentees = Blueprint('mentees', __name__)
@@ -66,9 +66,10 @@ def mentee_login():
         mentee = Mentee.query.filter_by(username=username).first()
 
         if mentee and bcrypt_sha256.verify(plain_password, mentee.password):
-            return jsonify({'message': 'Login Successful'}), 200
+            access_token = create_access_token(identity=mentee.id)
+            return jsonify({'username': mentee.username, 'access_token': access_token}), 200
         else:
-            return jsonify({'message': 'Login failed'}), 401
+            return jsonify({'message': 'Invalid credentials'}), 401
     
     except Exception as error:
         return jsonify({"error": str(error)}), 400

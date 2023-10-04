@@ -77,7 +77,7 @@ def mentor_login():
 
         if mentor and bcrypt_sha256.verify(plain_password, mentor.password):
             access_token = create_access_token(identity=mentor.id)
-            return jsonify({'access_token': access_token}), 200
+            return jsonify({'username': mentor.username, 'access_token': access_token}), 200
         else:
             return jsonify({'message': 'Invalid credentials'}), 401
 
