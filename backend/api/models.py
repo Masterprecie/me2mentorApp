@@ -129,7 +129,7 @@ class ContactUs(db.Model):
 
 class Admin(db.Model):
     '''
-        Admin class to manage mentors and mentees
+        Admin class to manage mentors and mentee
     '''
     __tablename__ = 'admins'
     id = db.Column(db.Integer, primary_key=True)
