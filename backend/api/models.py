@@ -137,6 +137,9 @@ class Admin(db.Model):
     email = db.Column(db.String(120), nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    mentee_id = db.Column(db.Integer, db.ForeignKey('mentees.id'), nullable=True)
+    mentor_id = db.Column(db.Integer, db.ForeignKey('mentors.id'), nullable=True)
+
 
     def __repr__(self):
         return f"Contact('{self.full_name}', '{self.email}', '{self.username}')"

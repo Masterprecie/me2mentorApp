@@ -35,10 +35,13 @@ def create_app(config_class=Config):
     from api.main import main
     from api.mentee import mentees
     from api.mentor import mentors
+    from api.appointments import bookings
 
     # Flask blueprint register
     app.register_blueprint(main, url_prefix='/api/main')
     app.register_blueprint(mentees, url_prefix='/api/mentees')
     app.register_blueprint(mentors, url_prefix='/api/mentors')
+    app.register_blueprint(bookings, url_prefix='/api/bookings')
+
 
     return app

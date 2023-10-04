@@ -46,7 +46,8 @@ class MentorSchema(ma.SQLAlchemyAutoSchema):
     password = fields.Str(required=True, load_only=True)
     profile_picture = fields.Str()
     expertise = fields.Str()
- 
+    experience = fields.Str()
+
     @post_load
     def make_mentor(self, data, **kwargs):
         '''
@@ -65,3 +66,14 @@ class MentorUserSchema(ma.SQLAlchemyAutoSchema):
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True)
+
+
+class TimeSlotsSchema(ma.SQLAlchemyAutoSchema):
+    '''
+        timeslot schema
+    '''
+    id = fields.Int()
+    mentor_id = fields.Str()
+    start_time = fields.Time()
+    end_time = fields.Time()
+    agreed_day = fields.Str()
