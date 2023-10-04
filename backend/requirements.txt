@@ -9,3 +9,4 @@ flask-jwt
 flask-smorest
 pillow
 passlib
+flask-migrate
