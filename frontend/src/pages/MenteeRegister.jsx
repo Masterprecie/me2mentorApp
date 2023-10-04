@@ -16,7 +16,7 @@ const defaultValues = {
 }
 
 const MenteeRegister = () => {
-	const navigate =useNavigate()
+	const navigate = useNavigate()
 	const [formData, setFormData] = useState(defaultValues);
 
 	const handleInputChange = (e) => {
@@ -46,13 +46,16 @@ const MenteeRegister = () => {
 				console.log('Registration successful');
 				const data = response.data;
 				console.log('Response data:', data);
+				alert('Registeration Successful')
 				navigate('/mentee-login')
 			} else if (response.status === 400) {
 				// Handle validation errors and display error messages to the user
 				const errorData = response.data;
+				alert('Registeration Failed')
 				console.error('Registration failed:', errorData.message);
 			} else {
 				// Handle other error cases (e.g., server errors) and show a generic error message
+				alert('Registeration failed')
 				console.error('Registration failed');
 			}
 		} catch (error) {

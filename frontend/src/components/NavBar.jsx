@@ -10,7 +10,7 @@ const NavBar = () => {
 	const toggleMobileSidebar = () => {
 		setMobileSidebarOpen(!mobileSidebarOpen);
 	};
-
+	console.log('User object:', user);
 	return (
 		<div className="w-full bg-blue-900 fixed shadow-lg">
 			{/* Mobile Navbar */}
@@ -93,7 +93,7 @@ const NavBar = () => {
 								<Link to='/login'>
 									Logout
 								</Link>
-								
+
 							</button>
 						</div>
 					) : (
@@ -134,8 +134,8 @@ const NavBar = () => {
 						<div className="flex gap-4 items-center">
 							<div>
 								{user ? (
-									<div className="flex flex-col items-center">
-										<p className="text-black font-bold">{user.username}</p>
+									<div className="flex gap-3  items-center">
+										<p className="text-white font-bold">Welcome <span>{user.role}</span> </p>
 										<button
 											onClick={logout}
 											className="border-2 py-2 px-5 rounded-md mt-2 hover:text-black hover:bg-white transition"
