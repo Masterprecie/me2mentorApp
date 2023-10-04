@@ -74,25 +74,6 @@ def mentee_login():
         return jsonify({"error": str(error)}), 400
 
 
-@mentees.route('/<int:id>', methods=['GET'])
-@jwt_required()
-def single_mentee(id):
-    '''
-        method to get a single mentee
-    '''
-    mentee = Mentee.query.get(id)
-    return mentee_schema.jsonify(mentee)
-
-
-@mentees.route("/all_mentees", methods=['GET'])
-def get_mentees():
-    '''
-        function to get all mentees in the database
-    '''
-    all_mentees = Mentee.query.all()
-    result = mentees_schema.dump(all_mentees)
-    return jsonify(result)
-
 
 @mentees.route("/updateMentee/<int:id>", methods=["PUT"])
 @jwt_required()
@@ -125,7 +106,6 @@ def mentee_logout():
         mentee logout route
     '''
     try:
-        
         session.clear()
         return redirect(url_for('mentee_login'))
 
