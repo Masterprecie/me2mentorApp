@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 
 const Hero = () => {
+	
 	return (
-
 		<div className="pt-16">
 			<div className="py-16 px-5 bg-hero-pattern bg-no-repeat bg-cover md:h-[40rem] ">
 				<h1 className="md:pt-16 font-bold md:text-6xl text-4xl text-white border-spacing-2 w-full lg:w-2/3">Unlock your potential and take charge of your future</h1>

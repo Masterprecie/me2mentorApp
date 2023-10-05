@@ -1,19 +1,20 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { navLinks } from '../utils/data'
+import { navLinks } from '../utils/data';
+import { useAuth } from "../context/UseAuth";
 
 const NavBar = () => {
 	const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+	const { user, logout } = useAuth();
 
 	const toggleMobileSidebar = () => {
 		setMobileSidebarOpen(!mobileSidebarOpen);
 	};
-
-
+	console.log('User object:', user);
 	return (
 		<div className="w-full bg-blue-900 fixed shadow-lg">
+			{/* Mobile Navbar */}
 			<div className="lg:hidden">
-				{/* Mobile Navbar */}
 				<nav className="text-white font-bold p-4 flex flex-row-reverse justify-between items-center">
 					{/* Mobile Sidebar Toggle Button */}
 					<div>
@@ -82,11 +83,26 @@ const NavBar = () => {
 					})}
 				</ul>
 				<div>
-					<button className=" border-2 py-2 px-5 rounded-md hover:text-black hover:bg-white transition">
-						<Link to='/login'>
-							Login
-						</Link>
-					</button>
+					{user ? (
+						<div className="flex flex-col items-center">
+							<p className="text-black font-bold">{user.username}</p>
+							<button
+								onClick={logout}
+								className="border-2 py-2 px-5 rounded-md mt-2 hover:text-black hover:bg-white transition"
+							>
+								<Link to='/login'>
+									Logout
+								</Link>
+
+							</button>
+						</div>
+					) : (
+						<button className="border-2 py-2 px-5 rounded-md hover:text-black hover:bg-white transition">
+							<Link to='/login'>
+								Login
+							</Link>
+						</button>
+					)}
 				</div>
 			</div>
 
@@ -115,32 +131,32 @@ const NavBar = () => {
 							</ul>
 						</div>
 
-
 						<div className="flex gap-4 items-center">
-
-
-							<div className="text-black">
-								<input
-									type="text"
-									name=""
-									id=""
-									placeholder="Search"
-									className="border outline-0 p-2 px-3 rounded-md bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
-								/>
-							</div>
 							<div>
-								<button className="border-2 py-2 px-5 rounded-md hover:text-black hover:bg-white transition">
-									<Link to='/login'>
-										Login
-									</Link>
-								</button>
+								{user ? (
+									<div className="flex gap-3  items-center">
+										<p className="text-white font-bold">Welcome <span>{user.username}</span> </p>
+										<button
+											onClick={logout}
+											className="border-2 py-2 px-5 rounded-md mt-2 hover:text-black hover:bg-white transition"
+										>
+											Logout
+										</button>
+									</div>
+								) : (
+									<button className="border-2 py-2 px-5 rounded-md hover:text-black hover:bg-white transition">
+										<Link to='/login'>
+											Login
+										</Link>
+									</button>
+								)}
 							</div>
 						</div>
 					</nav>
 				</div>
 			</nav>
 		</div>
-	)
-}
+	);
+};
 
 export default NavBar;

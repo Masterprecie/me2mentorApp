@@ -150,12 +150,12 @@ export const blog = [
 	{
 		id: 1,
 		img: '/blog1.jpg',
-		title: 'Lorem Ip',
-		content: 'Lorem ipsum blala Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, inventore reprehenderit architecto nesciunt quisquam dignissimos. Quaerat hic quidem voluptates dolorem laudantium! Architecto deserunt nesciunt iure minima dolor sapiente, necessitatibus sint.'
+		title: 'ALX Africa',
+		content: 'Students of cohort 9 from the Holberton School of Software Engineering will be graduating on the 11th of October, after a course spanning 12 months of intensive training in computing, network engineering, and computer languages. They have been tasked to come up with their final portfolio projects which will be presented before mentors by the 9th of October 2023.'
 	},
 	{
 		id: 2,
-		img: '/blog1.jpg',
+		img: '/contactBg.jpg',
 		title: 'Lorem IP',
 		content: 'lorem ipsum dadada Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, inventore reprehenderit architecto nesciunt quisquam dignissimos. Quaerat hic quidem voluptates dolorem laudantium! Architecto deserunt nesciunt iure minima dolor sapiente, necessitatibus sint.'
 	},

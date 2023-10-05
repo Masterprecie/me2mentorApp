@@ -1,11 +1,11 @@
 """ installed package imports """
 from flask import Flask
-from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
-from flask_mail import Mail
-from mentorapp.config import Config
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from config import Config
 
 
 
@@ -14,8 +14,9 @@ from mentorapp.config import Config
 db = SQLAlchemy()
 ma = Marshmallow()
 bcrypt = Bcrypt()
+cors = CORS()
+jwt = JWTManager()
 
-mail = Mail()
 
 
 def create_app(config_class=Config):
@@ -24,18 +25,25 @@ def create_app(config_class=Config):
     '''
     app = Flask(__name__)
     app.config.from_object(Config)
-    cors = CORS(app)
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
 
     db.init_app(app)
     bcrypt.init_app(app)
-    mail.init_app(app)
+    cors.init_app(app)
+    jwt.init_app(app)
 
     # circular import prevention #
-    from mentorapp.api.routes import api
+    from api.main import main
+    from api.mentee import mentees
+    from api.mentor import mentors
+    from api.appointments import bookings
+    from api.admin import admins
 
     # Flask blueprint register
-    app.register_blueprint(api)
+    app.register_blueprint(main, url_prefix='/api/main')
+    app.register_blueprint(mentees, url_prefix='/api/mentees')
+    app.register_blueprint(mentors, url_prefix='/api/mentors')
+    app.register_blueprint(bookings, url_prefix='/api/bookings')
+    app.register_blueprint(admins, url_prefix='/api/admins')
+
 
     return app

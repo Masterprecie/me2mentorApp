@@ -4,6 +4,7 @@ import Footer from "../components/Footer"
 import { services } from '../utils/data'
 
 const Services = () => {
+
   return (
     <>
       <NavBar />
@@ -30,12 +31,9 @@ const Services = () => {
               )
             })
           }
-
         </div>
-
       </div>
       <Footer />
-
     </>
   )
 }

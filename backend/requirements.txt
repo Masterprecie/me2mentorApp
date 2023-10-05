@@ -1,2 +1,12 @@
 flask
-flask_sqlalchmey
+flask-Sqlalchemy
+flask-Bcrypt
+flask-Marshmallow
+marshmallow
+marshmallow-Sqlalchemy
+flask-Cors
+flask-jwt
+flask-smorest
+pillow
+passlib
+flask-migrate
