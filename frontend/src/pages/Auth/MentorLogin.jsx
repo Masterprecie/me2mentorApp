@@ -27,7 +27,7 @@ const MentorLogin = () => {
 
 		if (success) {
 			console.log('Login successful');
-			navigate('/')
+			navigate('/available')
 		} else {
 			// Handle login failure, display error message, etc.
 			console.error('Login failed');

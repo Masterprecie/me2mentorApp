@@ -66,7 +66,7 @@ def mentee_login():
         mentee = Mentee.query.filter_by(username=username).first()
 
         if mentee and bcrypt_sha256.verify(plain_password, mentee.password):
-            return jsonify({'message': 'Login Successful'}), 200
+            return jsonify({'message': 'Login Successful', 'username': mentee.username, }), 200
         else:
             return jsonify({'message': 'Login failed'}), 401
     
