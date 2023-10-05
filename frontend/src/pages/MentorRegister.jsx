@@ -45,8 +45,8 @@ const MentorRegister = () => {
 			const response = await axios.post('http://localhost:5000/api/mentors/mentor_register', formData);
 
 			if (response.status === 200) {
-				console.log('Registration successful');
 				const data = response.data;
+				console.log('Registration successful');
 				console.log('Response data:', data);
 				alert('Registration Successfull')
 				navigate('/mentor-login')
@@ -79,7 +79,10 @@ const MentorRegister = () => {
 							name="first_name"
 							value={formData.first_name}
 							onChange={handleInputChange}
-							placeholder="Enter your First Name" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your First Name"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -89,7 +92,10 @@ const MentorRegister = () => {
 							name="last_name"
 							value={formData.last_name}
 							onChange={handleInputChange}
-							placeholder="Enter your Last Name" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your Last Name"
+							className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="userName" className="block text-lg font-semibold"> Username </label>
@@ -97,7 +103,10 @@ const MentorRegister = () => {
 							name="username"
 							value={formData.username}
 							onChange={handleInputChange}
-							placeholder="Enter your username" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your username"
+							className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -105,7 +114,9 @@ const MentorRegister = () => {
 						<select name="gender"
 							value={formData.gender}
 							onChange={handleInputChange}
-							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						>
 							<option value="">Select a Gender</option>
 							<option value="Male">Male</option>
 							<option value="Female">Female</option>
@@ -118,7 +129,10 @@ const MentorRegister = () => {
 							name="email"
 							value={formData.email}
 							onChange={handleInputChange}
-							placeholder="Email" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Email"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -127,7 +141,10 @@ const MentorRegister = () => {
 							name="age"
 							value={formData.age}
 							onChange={handleInputChange}
-							placeholder="Age" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Age"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -136,7 +153,10 @@ const MentorRegister = () => {
 							name="password"
 							value={formData.password}
 							onChange={handleInputChange}
-							placeholder="Password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Password"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="password" className="block text-lg font-semibold"> Confirm Password </label>
@@ -144,7 +164,10 @@ const MentorRegister = () => {
 							name="password_hash"
 							value={formData.password_hash}
 							onChange={handleInputChange}
-							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Confirm password"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -153,7 +176,10 @@ const MentorRegister = () => {
 							name="experience"
 							value={formData.experience}
 							onChange={handleInputChange}
-							placeholder="Years of Experience" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Years of Experience"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -162,13 +188,24 @@ const MentorRegister = () => {
 							name="expertise"
 							value={formData.expertise}
 							onChange={handleInputChange}
-							placeholder="Area of Specialization" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Area of Specialization"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div className="col-span-2">
 						<label htmlFor="summary" className="block text-lg font-semibold"> Brief Summary </label>
-						<textarea name="brief_summary" id="" value={formData.brief_summary} placeholder="Brief Summary of yourself" onChange={handleInputChange} cols="30" rows="10" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" ></textarea>
-
+						<textarea
+							name="brief_summary"
+							value={formData.brief_summary}
+							placeholder="Brief Summary of yourself"
+							onChange={handleInputChange}
+							cols="30"
+							rows="10"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						></textarea>
 					</div>
 
 

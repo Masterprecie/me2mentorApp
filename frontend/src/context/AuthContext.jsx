@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
 			if (response.status === 200) {
 				const userData = response.data;
-				setUser({ ...userData, role: 'mentee' });
+				setUser({ ...userData, role: 'mentee', isAdmin: false });
 				// Store user data in local storage upon successful login
 				localStorage.setItem('user', JSON.stringify(userData));
 				return true;
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
 			if (response.status === 200) {
 				const userData = response.data;
-				setUser({ ...userData, role: 'mentor' });
+				setUser({ ...userData, role: 'mentor', isAdmin: false });
 				// Store user data in local storage upon successful login
 				localStorage.setItem('user', JSON.stringify(userData));
 				return true;
@@ -59,23 +59,49 @@ export const AuthProvider = ({ children }) => {
 	};
 
 
-	const logout = async () => {
+	const loginAdmin = async (username, password) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/admins/logout');
+			const response = await axios.post('http://localhost:5000/api/admins/login', {
+				username,
+				password,
+			});
+
 			if (response.status === 200) {
-				setUser(null);
-				localStorage.removeItem('user');
+				const userData = response.data;
+				setUser({ ...userData, role: 'admin', isAdmin: true }); // Set isAdmin to true for admin
+				localStorage.setItem('user', JSON.stringify(userData));
+				return true;
 			} else {
-				// Handle logout failure
+				return false;
 			}
 		} catch (error) {
-			// Handle network or other errors
+			console.error('Admin Login error', error);
+			return false;
 		}
 	};
 
+	const logout = () => {
+		setUser(null);
+		localStorage.removeItem('user');
+	};
+	// const logout = async () => {
+	// 	try {
+	// 		const response = await axios.post('http://localhost:5000/api/admins/logout');
+	// 		if (response.status === 200) {
+	// 			setUser(null);
+	// 			localStorage.removeItem('user');
+	// 		} else {
+	// 			// Handle logout failure
+	// 		}
+	// 	} catch (error) {
+	// 		// Handle network or other errors
+	// 	}
+	// };
+
+
 
 	return (
-		<AuthContext.Provider value={{ user, loginMentee, loginMentor, logout }}>
+		<AuthContext.Provider value={{ user, loginMentee, loginMentor, loginAdmin, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
