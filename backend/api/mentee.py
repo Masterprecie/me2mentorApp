@@ -21,8 +21,8 @@ def mentee_register():
     '''
 
     try:
-        data = request.form
-        profile_picture = request.files['profile_picture']
+        data = request.get_json()
+        #profile_picture = request.files['profile_picture']
         first_name = data['first_name']
         last_name = data['last_name']
         age = data['age']
@@ -36,10 +36,10 @@ def mentee_register():
 
         if not user_present(email):
 
-            if profile_picture:
+            '''if profile_picture:
                 # Save the image to a folder
                 filename = secure_filename(profile_picture.filename)
-                profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))'''
 
             mentee = Mentee(
                     first_name=first_name,
