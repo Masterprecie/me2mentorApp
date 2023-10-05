@@ -8,12 +8,12 @@ const AdminDashboard = () => {
 
 	useEffect(() => {
 		// Fetch mentees from API
-		axios.get('http://localhost:5000/api/mentees/all_mentees').then((response) => {
+		axios.get('http://localhost:5000/api/admins/all_mentees').then((response) => {
 			setMentees(response.data);
 		});
 
 		// Fetch mentor availability from API
-		axios.get('http://localhost:5000/api/mentor-availability').then((response) => {
+		axios.get('http://localhost:5000/api/bookings/getTimeSlots').then((response) => {
 			setMentorAvailability(response.data);
 		});
 

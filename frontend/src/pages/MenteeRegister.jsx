@@ -186,7 +186,7 @@ const MenteeRegister = () => {
 							type="file"
 							onChange={handleFileChange}
 							className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
-							required
+							
 						/>
 					</div>
 
