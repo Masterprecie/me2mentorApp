@@ -58,10 +58,21 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const logout = () => {
-		setUser(null);
-		localStorage.removeItem('user');
+
+	const logout = async () => {
+		try {
+			const response = await axios.post('http://localhost:5000/api/admins/logout');
+			if (response.status === 200) {
+				setUser(null);
+				localStorage.removeItem('user');
+			} else {
+				// Handle logout failure
+			}
+		} catch (error) {
+			// Handle network or other errors
+		}
 	};
+
 
 	return (
 		<AuthContext.Provider value={{ user, loginMentee, loginMentor, logout }}>

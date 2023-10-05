@@ -6,7 +6,6 @@ marshmallow
 marshmallow-Sqlalchemy
 flask-Cors
 flask-jwt
-flask_jwt_extended
 flask-smorest
 pillow
 passlib

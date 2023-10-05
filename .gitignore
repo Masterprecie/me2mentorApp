@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 app
-backend
+/instance
 
 # Editor directories and files
 .vscode/*
