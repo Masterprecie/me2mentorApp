@@ -74,12 +74,13 @@ def mentor_login():
         plain_password = data['password']
 
         mentor = Mentor.query.filter_by(username=username).first()
-
+        
         if mentor and bcrypt_sha256.verify(plain_password, mentor.password):
             access_token = create_access_token(identity=mentor.id)
             return jsonify({'username': mentor.username, 'access_token': access_token}), 200
         else:
-            return jsonify({'message': 'Invalid credentials'}), 401
+            return jsonify({'message': 'Login failed'}), 401
+    
 
     except Exception as error:
         return jsonify({"error": str(error)}), 400

@@ -12,6 +12,7 @@ import MentorDetails from './pages/MentorDetails'
 import MenteeLogin from './pages/Auth/MenteeLogin'
 import MentorLogin from './pages/Auth/MentorLogin'
 import LoginPage from './pages/Auth/LoginPage'
+import Available from './pages/Auth/Available'
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/mentee-login' element={<MenteeLogin />} />
         <Route path='/mentor-login' element={<MentorLogin />} />
+        <Route path='/available' element={<Available />} />
         <Route path='/about' element={<About />} />
         <Route path='/blog' element={<Blog />} />
         <Route path='/contact' element={<Contact />} />
