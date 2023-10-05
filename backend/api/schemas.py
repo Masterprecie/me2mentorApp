@@ -47,6 +47,7 @@ class MentorSchema(ma.SQLAlchemyAutoSchema):
     profile_picture = fields.Str()
     expertise = fields.Str()
     experience = fields.Str()
+    brief_summary = fields.Str()
 
     @post_load
     def make_mentor(self, data, **kwargs):
