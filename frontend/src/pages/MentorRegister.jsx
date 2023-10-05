@@ -47,18 +47,19 @@ const MentorRegister = () => {
 				console.log('Registration successful');
 				const data = response.data;
 				console.log('Response data:', data);
+				alert('Registration Successfull')
 				navigate('/mentor-login')
 			} else if (response.status === 400) {
-				// Handle validation errors and display error messages to the user
 				const errorData = response.data;
+				alert('Registration failed')
 				console.error('Registration failed:', errorData.message);
 			} else {
-				// Handle other error cases (e.g., server errors) and show a generic error message
+				alert('Registration failed')
 				console.error('Registration failed');
 			}
 		} catch (error) {
 			console.error('Error:', error);
-			// Handle network errors or other exceptions and display an error message to the user
+
 		}
 	};
 
