@@ -8,7 +8,7 @@ const AdminDashboard = () => {
 
 	useEffect(() => {
 		// Fetch mentees from API
-		axios.get('http://localhost:5000/api/mentees/all_mentees').then((response) => {
+		axios.get('http://localhost:5000/api/admins/all_mentees').then((response) => {
 			setMentees(response.data);
 		});
 
@@ -22,7 +22,10 @@ const AdminDashboard = () => {
 			setMentors(response.data);
 		});
 	}, []);
-
+	const mentorAvailabilityDict = {};
+	mentorAvailability.forEach((availability) => {
+		mentorAvailabilityDict[availability.mentor_id] = availability;
+	});
 	return (
 		<div className="bg-gray-100 min-h-screen p-8">
 			<div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -32,7 +35,7 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">All Mentees</h2>
 						<div className="">
 							{mentees.map((mentee) => (
-								<ul key={mentee.id}>
+								<ul key={mentee.id} className='border p-3 mb-3 shadow-lg '>
 									<li>First Name: <span>{mentee.first_name}</span></li>
 									<li>Last Name: <span>{mentee.last_name}</span></li>
 									<li>Interest: <span>{mentee.interest}</span></li>
@@ -44,7 +47,7 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">Mentor Availability</h2>
 						<div className="">
 							{mentorAvailability.map((mentor) => (
-								<ul key={mentor.id}>
+								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg'>
 									<li> Available day : <span>{mentor.day}</span></li>
 									<li>From: <span>{mentor.start_time}</span></li>
 									<li>To: <span>{mentor.end_time}</span></li>
@@ -56,11 +59,20 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">All Mentors</h2>
 						<div className="">
 							{mentors.map((mentor) => (
-								<ul key={mentor.id}>
+								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg'>
 									<li>First Name: <span>{mentor.first_name}</span> </li>
 									<li>Last Name: <span>{mentor.last_name}</span> </li>
 									<li> Expertise: <span>{mentor.expertise}</span> </li>
 									<li> Experience: <span>{mentor.experience}</span> year(s) </li>
+									{mentorAvailabilityDict[mentor.id] && (
+										<li>
+											Available on: <span>{mentorAvailabilityDict[mentor.id].day}</span>
+											<br />
+											From: <span>{mentorAvailabilityDict[mentor.id].start_time}</span>
+											<br />
+											To: <span>{mentorAvailabilityDict[mentor.id].end_time}</span>
+										</li>
+									)}
 								</ul>
 							))}
 						</div>
