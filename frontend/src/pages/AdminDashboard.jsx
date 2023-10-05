@@ -35,10 +35,10 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">All Mentees</h2>
 						<div className="">
 							{mentees.map((mentee) => (
-								<ul key={mentee.id} className='border p-3 mb-3 shadow-lg '>
+								<ul key={mentee.id} className='border p-3 mb-3 shadow-lg h-28 '>
 									<li>First Name: <span>{mentee.first_name}</span></li>
 									<li>Last Name: <span>{mentee.last_name}</span></li>
-									<li>Interest: <span>{mentee.interest}</span></li>
+									<li>Interest: <span>{mentee.interests}</span></li>
 								</ul>
 							))}
 						</div>
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">Mentor Availability</h2>
 						<div className="">
 							{mentorAvailability.map((mentor) => (
-								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg'>
+								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg h-28'>
 									<li> Available day : <span>{mentor.agreed_day}</span></li>
 									<li>From: <span>{mentor.start_time}</span></li>
 									<li>To: <span>{mentor.end_time}</span></li>
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
 						<h2 className="text-xl font-semibold mb-2">All Mentors</h2>
 						<div className="">
 							{mentors.map((mentor) => (
-								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg'>
+								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg h-28'>
 									<li>First Name: <span>{mentor.first_name}</span> </li>
 									<li>Last Name: <span>{mentor.last_name}</span> </li>
 									<li> Expertise: <span>{mentor.expertise}</span> </li>
