@@ -28,7 +28,8 @@ const ContactUS = () => {
 			const response = await axios.post('http://localhost:5000/api/main/contactus', formData);
 
 			if (response.status === 200) {
-				// Reset the form or show a success message
+				const data = response.data;
+				console.log('Response', data);
 				alert('Form submitted successfully!');
 				setFormData({
 					full_name: '',
@@ -38,7 +39,7 @@ const ContactUS = () => {
 				});
 			} else {
 				// Handle other response statuses or errors
-				alert('Form submission failed. Please try again later.');
+				console.log('Form submission failed.');
 			}
 		} catch (error) {
 			// Handle any Axios errors

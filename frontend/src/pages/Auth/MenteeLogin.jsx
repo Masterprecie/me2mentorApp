@@ -52,6 +52,7 @@ const MenteeLogin = () => {
 							onChange={handleInputChange}
 							placeholder="Enter your username"
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
 						/>
 					</div>
 
@@ -67,6 +68,7 @@ const MenteeLogin = () => {
 							onChange={handleInputChange}
 							placeholder="Password"
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
 						/>
 					</div>
 

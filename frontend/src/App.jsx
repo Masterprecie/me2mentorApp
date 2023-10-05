@@ -13,6 +13,7 @@ import MenteeLogin from './pages/Auth/MenteeLogin'
 import MentorLogin from './pages/Auth/MentorLogin'
 import LoginPage from './pages/Auth/LoginPage'
 import Available from './pages/Auth/Available'
+import AdminDashboard from './pages/AdminDashboard'
 
 
 
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/mentor-register' element={<MentorRegister />} />
         <Route path='/all-mentors' element={<AllMentors />} />
         <Route path="/mentor/:id" element={<MentorDetails />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
 
     </div >
