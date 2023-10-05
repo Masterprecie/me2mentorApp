@@ -52,7 +52,7 @@ const MentorDetails = () => {
 		// Fetch mentor details from the API based on the ID when the component mounts
 		const fetchMentorDetails = async () => {
 			try {
-				const response = await axios.get(`http://localhost:5000/api/admins/mentors/${id}`);
+				const response = await axios.get(`http://localhost:5000/api/admins/mentor/${id}`);
 				const data = response.data;
 				setMentor(data); // Set the fetched mentor in the state
 			} catch (error) {
