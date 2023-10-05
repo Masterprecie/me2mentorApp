@@ -20,6 +20,7 @@ class Mentor(db.Model):
     profile_picture = db.Column(db.String(255), nullable=False, default='default.jpg')
     expertise = db.Column(db.String(120), nullable=False)
     experience = db.Column(db.Integer, nullable=False)
+    brief_summary = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     mentees = db.relationship('Mentee', backref='mentor', lazy=True)
@@ -28,7 +29,7 @@ class Mentor(db.Model):
 
     def __repr__(self):
         return (
-            f"Mentor('{self.username}', '{self.email}', '{self.age}'," 
+            f"Mentor('{self.username}', '{self.email}', '{self.age}', '{self.brief_summary}'" 
             f"'{self.expertise}', '{self.experience}',  '{self.profile_picture}'"
             f"'{self.first_name}', '{self.last_name}', '{self.gender}')"
         )

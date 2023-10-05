@@ -1,14 +1,15 @@
 '''
     mentee - mentor imports
 '''
+import os
 from flask import Blueprint, jsonify, request, redirect, session, url_for
 from api import db
 from api.main import user_present
 from api.models import Mentee
 from api.schemas import mentee_schema, mentees_schema
 from passlib.hash import bcrypt_sha256
-from flask_jwt_extended import jwt_required
-
+from werkzeug.utils import secure_filename
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt
 
 mentees = Blueprint('mentees', __name__)
 
@@ -20,7 +21,8 @@ def mentee_register():
     '''
 
     try:
-        data = request.get_json()
+        data = request.form
+        profile_picture = request.files['profile_picture']
         first_name = data['first_name']
         last_name = data['last_name']
         age = data['age']
@@ -33,6 +35,12 @@ def mentee_register():
         hashed_password = bcrypt_sha256.hash(plain_password)
 
         if not user_present(email):
+
+            if profile_picture:
+                # Save the image to a folder
+                filename = secure_filename(profile_picture.filename)
+                profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
             mentee = Mentee(
                     first_name=first_name,
                     last_name=last_name,
@@ -66,32 +74,14 @@ def mentee_login():
         mentee = Mentee.query.filter_by(username=username).first()
 
         if mentee and bcrypt_sha256.verify(plain_password, mentee.password):
-            return jsonify({'message': 'Login Successful'}), 200
+            access_token = create_access_token(identity=mentee.id)
+            return jsonify({'username': mentee.username, 'access_token': access_token}), 200
         else:
-            return jsonify({'message': 'Login failed'}), 401
+            return jsonify({'message': 'Invalid credentials'}), 401
     
     except Exception as error:
         return jsonify({"error": str(error)}), 400
 
-
-@mentees.route('/<int:id>', methods=['GET'])
-@jwt_required()
-def single_mentee(id):
-    '''
-        method to get a single mentee
-    '''
-    mentee = Mentee.query.get(id)
-    return mentee_schema.jsonify(mentee)
-
-
-@mentees.route("/all_mentees", methods=['GET'])
-def get_mentees():
-    '''
-        function to get all mentees in the database
-    '''
-    all_mentees = Mentee.query.all()
-    result = mentees_schema.dump(all_mentees)
-    return jsonify(result)
 
 
 @mentees.route("/updateMentee/<int:id>", methods=["PUT"])
@@ -125,7 +115,6 @@ def mentee_logout():
         mentee logout route
     '''
     try:
-        
         session.clear()
         return redirect(url_for('mentee_login'))
 
