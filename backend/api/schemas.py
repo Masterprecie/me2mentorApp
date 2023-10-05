@@ -3,7 +3,7 @@
 '''
 from marshmallow import fields, post_load
 from api import ma
-from api.models import Mentee, Mentor, ContactUs
+from api.models import Mentee, Mentor, ContactUs, TimeSlots
 
 
 class MenteeSchema(ma.SQLAlchemyAutoSchema):
@@ -73,11 +73,20 @@ class TimeSlotsSchema(ma.SQLAlchemyAutoSchema):
     '''
         timeslot schema
     '''
-    id = fields.Int()
-    mentor_id = fields.Str()
     start_time = fields.Time()
     end_time = fields.Time()
     agreed_day = fields.Str()
+
+
+    @post_load
+    def get_timeslot(self, data, **kwargs):
+        '''
+            schema function to send a conact form
+        '''
+        return TimeSlots(**data)
+
+timeslot_schema = TimeSlotsSchema()
+timeslots_schema = TimeSlotsSchema(many=True)
 
 
 class ContactUsSchema(ma.SQLAlchemyAutoSchema):
