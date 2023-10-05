@@ -1,12 +1,11 @@
+
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
-import { topMentors } from "../utils/data";
 
 const MentorDetails = () => {
 	const { id } = useParams();
-	const mentor = topMentors.find((mentor) => mentor.id === parseInt(id, 10));
-
+	const [mentor, setMentor] = useState(null); // Initialize mentor as null
 	const [isBookingFormVisible, setIsBookingFormVisible] = useState(false);
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [bookingDetails, setBookingDetails] = useState({
@@ -26,16 +25,13 @@ const MentorDetails = () => {
 	const handleBookingSubmit = (e) => {
 		e.preventDefault();
 
-
 		const bookingData = {
 			date: selectedDate,
 			...bookingDetails,
 		};
 
-
 		axios.post("http://localhost:5000/api/bookings", bookingData)
 			.then((response) => {
-
 				console.log("Booking successful:", response.data);
 				// Optionally, you can reset the form and hide it
 				setSelectedDate(null);
@@ -52,6 +48,21 @@ const MentorDetails = () => {
 			});
 	};
 
+	useEffect(() => {
+		// Fetch mentor details from the API based on the ID when the component mounts
+		const fetchMentorDetails = async () => {
+			try {
+				const response = await axios.get(`http://localhost:5000/api/admins/mentors/${id}`);
+				const data = response.data;
+				setMentor(data); // Set the fetched mentor in the state
+			} catch (error) {
+				console.error('Error fetching mentor details:', error);
+			}
+		};
+
+		fetchMentorDetails();
+	}, [id]);
+
 	return (
 		<div className="px-5 py-8">
 			<div className="text-center text-3xl font-bold pb-8">
@@ -59,15 +70,15 @@ const MentorDetails = () => {
 			</div>
 			{mentor ? (
 				<div>
+
 					<div className="md:grid gap-5 grid-cols-3 border-2 shadow-md p-2">
 						<div>
-							<img src={mentor.url} alt={mentor.name} className="w-full rounded-md" />
+							<img src={mentor.profile_picture} alt={mentor.first_name} className="w-full rounded-md" />
 						</div>
 						<div className="space-y-5 pt-4">
-							<p className="font-bold text-2xl">Name: <span className="font-semibold">{mentor.name}</span></p>
-							<p className="font-bold text-2xl">Country: <span className="font-semibold">{mentor.country}</span></p>
-							<p className="font-bold text-2xl">Expertise: <span className="font-semibold">{mentor.field}</span></p>
-							<p className="font-bold text-2xl">Category: <span className="font-semibold">{mentor.category}</span></p>
+							<p className="font-bold text-2xl">Name: <span className="font-semibold">{mentor.first_name}</span></p>
+							<p className="font-bold text-2xl">Country: <span className="font-semibold">{mentor.last_name}</span></p>
+							<p className="font-bold text-2xl">Expertise: <span className="font-semibold">{mentor.expertise}</span></p>
 							<p className="font-bold text-2xl">Experience: <span className="font-semibold">{mentor.experience}</span></p>
 						</div>
 						<div className="md:border-l-2 border-t-2 mt-5 md:mt-0 p-2">
@@ -87,7 +98,7 @@ const MentorDetails = () => {
 												<label htmlFor="sessionDate" className="block font-semibold text-lg">
 													Select Date and Time:
 												</label>
-												{/* Implement a date and time picker here */}
+
 												<input
 													type="datetime-local"
 													id="sessionDate"
@@ -156,7 +167,7 @@ const MentorDetails = () => {
 
 					<div className="md:w-1/2 pt-5">
 						<h4 className="font-bold">Brief Overview</h4>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos dolore laboriosam impedit voluptatum incidunt, modi repellat, inventore alias dignissimos corrupti, neque ducimus minus animi reiciendis. Expedita corrupti maiores dolor id.</p>
+						<p>{mentor.brief_summary}</p>
 					</div>
 				</div>
 			) : (
@@ -165,5 +176,6 @@ const MentorDetails = () => {
 		</div>
 	);
 }
+
 
 export default MentorDetails;

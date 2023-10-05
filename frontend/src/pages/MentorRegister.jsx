@@ -14,6 +14,7 @@ const defaultValues = {
 	expertise: '',
 	experience: '',
 	profile_picture: '',
+	brief_summary: ''
 }
 
 const MentorRegister = () => {
@@ -22,7 +23,7 @@ const MentorRegister = () => {
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		const newValue = name === 'age' || name === 'experience' ? parseInt(value, 10) : value;
+		const newValue = name === 'age' || name === 'experience' ? parseInt(value, 10) : name === 'brief_summary' ? value.slice(0, 255) : value;
 		setFormData({
 			...formData,
 			[name]: newValue,
@@ -106,8 +107,8 @@ const MentorRegister = () => {
 							onChange={handleInputChange}
 							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
 							<option value="">Select a Gender</option>
-							<option value="Option 1">Male</option>
-							<option value="Option 2">Female</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
 						</select>
 
 					</div>
@@ -157,14 +158,17 @@ const MentorRegister = () => {
 
 					<div>
 						<label htmlFor="expertise" className="block text-lg font-semibold"> Expertise </label>
-						<select name="expertise"
+						<input type="text"
+							name="expertise"
 							value={formData.expertise}
 							onChange={handleInputChange}
-							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
-							<option value="">Area of Specialization</option>
-							<option value="Option 1">Option 1</option>
-							<option value="Option 2">Option 2</option>
-						</select>
+							placeholder="Area of Specialization" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+					</div>
+
+					<div className="col-span-2">
+						<label htmlFor="summary" className="block text-lg font-semibold"> Brief Summary </label>
+						<textarea name="brief_summary" id="" value={formData.brief_summary} placeholder="Brief Summary of yourself" onChange={handleInputChange} cols="30" rows="10" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" ></textarea>
+
 					</div>
 
 
