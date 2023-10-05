@@ -48,7 +48,7 @@ const AdminDashboard = () => {
 						<div className="">
 							{mentorAvailability.map((mentor) => (
 								<ul key={mentor.id} className='border p-3 mb-3 shadow-lg'>
-									<li> Available day : <span>{mentor.day}</span></li>
+									<li> Available day : <span>{mentor.agreed_day}</span></li>
 									<li>From: <span>{mentor.start_time}</span></li>
 									<li>To: <span>{mentor.end_time}</span></li>
 								</ul>
