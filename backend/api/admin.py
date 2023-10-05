@@ -46,7 +46,7 @@ def admin_logout():
 
 #####---------------------mentee side-----------------##########
 
-@admins.route('/mentee_<int:id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@admins.route('/mentee/<int:id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 #@jwt_required()
 def single_mentee(id):
     '''
@@ -89,8 +89,8 @@ def get_mentors():
     result = mentors_schema.dump(all_mentors)
     return jsonify(result)
 
-@admins.route("/mentor_<int:id>", methods=["GET"])
-def single_mentor():
+@admins.route("/mentor/<int:id>", methods=['GET'])
+def single_mentor(id):
     '''
         method to get a single mentor
     '''

@@ -99,3 +99,4 @@ class ContactUsSchema(ma.SQLAlchemyAutoSchema):
 
 
 contact_schema = ContactUsSchema()
+contacts_schema = ContactUsSchema(many=True)

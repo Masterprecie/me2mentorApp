@@ -3,8 +3,8 @@ This file contains routes for the main application
 """
 from flask import Blueprint, jsonify, request
 from api import db
-from api.models import Mentee, Mentor
-from api.schemas import contact_schema
+from api.models import Mentee, Mentor, ContactUs
+from api.schemas import contact_schema, contacts_schema
 
 main = Blueprint('main', __name__)
 
@@ -41,3 +41,13 @@ def contact_us():
     
     except Exception as error:
         return str(error), 400
+
+
+@main.route('/contactResponses', methods=['GET'])
+def get_contact_us():
+    '''
+        get contact form reports
+    '''
+    contact_responses = ContactUs.query.all()
+    result = contacts_schema.dump(contact_responses)
+    return jsonify(result), 201
