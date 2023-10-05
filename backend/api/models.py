@@ -23,8 +23,9 @@ class Mentor(db.Model):
     brief_summary = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    mentees = db.relationship('Mentee', backref='mentor', lazy=True)
-    mentee_appointment = db.relationship('Appointment', backref='mentor', lazy=True)
+    mentees = db.relationship('Mentee', backref='mentors', lazy=True)
+    mentee_appointment = db.relationship('Appointment', backref='mentors', lazy=True)
+    timeslots = db.relationship('TimeSlots', backref='mentors', lazy=True)
 
 
     def __repr__(self):
@@ -87,7 +88,7 @@ class TimeSlots(db.Model):
     '''
     __tablename__ = 'timeslots'
     id = db.Column(db.Integer, primary_key=True)
-    mentor_id = db.Column(db.Integer, db.ForeignKey('mentors.id'), nullable=False)
+    mentor_id = db.Column(db.Integer, db.ForeignKey('mentors.id'), nullable=True)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
     agreed_day = db.Column(db.String(10), nullable=False, default='Everyday')
