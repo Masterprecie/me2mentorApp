@@ -64,18 +64,20 @@ def createTimeSlot():
         data = request.get_json()
     
         # Parse start_time and end_time into datetime objects
-        mentor_id = data.get("mentor_id")
+        #mentor_id = data.get("mentor_id")
         start_time_str = data.get("start_time")
         end_time_str = data.get("end_time")
         agreed_day = data.get("agreed_day")
-        
 
-        if mentor_id is None:
-            return jsonify({"error" : "mentor id is required"}), 400
+        #mentor_id = TimeSlots.query.filter_by(mentor_id=Mentor.timeslots).first()
 
-        mentor = Mentor.query.get(mentor_id)
-        if mentor is None:
-            return jsonify({"error" : f"mentor with id of {mentor_id} does not exist"}), 400
+
+        #if mentor_id is None:
+            #return jsonify({"error" : "mentor id is required"}), 400
+
+        #mentor = Mentor.query.get(mentor_id)
+        #if mentor is None:
+            #return jsonify({"error" : f"mentor with id of {mentor_id} does not exist"}), 400
 
         if agreed_day is None:
             return jsonify({"error" : "Day of the week is required"}), 400
@@ -98,7 +100,7 @@ def createTimeSlot():
     
         
         timeSlot = TimeSlots.query.filter(
-                TimeSlots.mentor_id==mentor_id,
+                #TimeSlots.mentor_id==mentor_id,
                 TimeSlots.start_time>=start_time,
                 TimeSlots.end_time<=end_time,
                 TimeSlots.agreed_day==agreed_day
@@ -108,7 +110,7 @@ def createTimeSlot():
             return jsonify({'error' : 'Time Slot already exists'}), 409
 
         time_slot = TimeSlots(
-                mentor_id=mentor_id,
+                #mentor_id=mentor_id,
                 start_time=start_time,
                 end_time=end_time,
                 agreed_day=agreed_day)

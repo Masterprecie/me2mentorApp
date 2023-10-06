@@ -28,22 +28,22 @@ const Available = () => {
 			const response = await axios.post('http://localhost:5000/api/bookings/addTimeSlot', formData);
 
 			if (response.status === 200) {
-				console.log('Registration successful');
 				const data = response.data;
 				console.log('Response data:', data);
+				console.log('Registration successful');
 				alert('Registration Successfull')
+				navigate('/')
 				setFormData({
 					start_time: '',
 					end_time: '',
 					agreed_day: '',
 				});
-				navigate('/')
 			} else if (response.status === 400) {
 				const errorData = response.data;
-				alert('Registration failed')
+				console.log('Registration failed')
 				console.error('Registration failed:', errorData.message);
 			} else {
-				alert('Registration failed')
+				console.log('Registration failed')
 				console.error('Registration failed');
 			}
 		} catch (error) {
@@ -68,6 +68,7 @@ const Available = () => {
 						value={formData.start_time}
 						onChange={handleInputChange}
 						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						required
 					/>
 				</div>
 				<div className="mb-4">
@@ -80,6 +81,7 @@ const Available = () => {
 						value={formData.end_time}
 						onChange={handleInputChange}
 						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						required
 					/>
 				</div>
 				<div className="mb-4">
@@ -91,6 +93,7 @@ const Available = () => {
 						value={formData.agreed_day}
 						onChange={handleInputChange}
 						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						required
 					>
 						<option value="">Select a Day</option>
 						<option value="Monday">Monday</option>

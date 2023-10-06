@@ -43,8 +43,8 @@ const MenteeRegister = () => {
 			const response = await axios.post('http://localhost:5000/api/mentees/mentee_register', formData);
 
 			if (response.status === 200) {
-				console.log('Registration successful');
 				const data = response.data;
+				console.log('Registration successful');
 				console.log('Response data:', data);
 				alert('Registeration Successful')
 				navigate('/mentee-login')
@@ -79,7 +79,10 @@ const MenteeRegister = () => {
 							name="first_name"
 							value={formData.first_name}
 							onChange={handleInputChange}
-							placeholder="Enter your First Name" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your First Name"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -89,7 +92,10 @@ const MenteeRegister = () => {
 							name="last_name"
 							value={formData.last_name}
 							onChange={handleInputChange}
-							placeholder="Enter your Last Name" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your Last Name"
+							className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="userName" className="block text-lg font-semibold"> Username </label>
@@ -97,7 +103,10 @@ const MenteeRegister = () => {
 							name="username"
 							value={formData.username}
 							onChange={handleInputChange}
-							placeholder="Enter your username" className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Enter your username"
+							className="border outline-0 p-2 rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -105,7 +114,9 @@ const MenteeRegister = () => {
 						<select name="gender" id=""
 							value={formData.gender}
 							onChange={handleInputChange}
-							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]">
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						>
 							<option value="">Select a Gender</option>
 							<option value="Option 1">Male</option>
 							<option value="Option 2">Female</option>
@@ -118,7 +129,10 @@ const MenteeRegister = () => {
 							name="email"
 							value={formData.email}
 							onChange={handleInputChange}
-							placeholder="Email" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Email"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="age" className="block text-lg font-semibold"> Age </label>
@@ -126,7 +140,10 @@ const MenteeRegister = () => {
 							name="age"
 							value={formData.age}
 							onChange={handleInputChange}
-							placeholder="Age" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Age"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -135,7 +152,10 @@ const MenteeRegister = () => {
 							name="password"
 							value={formData.password}
 							onChange={handleInputChange}
-							placeholder="Password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Password"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="password" className="block text-lg font-semibold"> Confirm Password </label>
@@ -143,7 +163,10 @@ const MenteeRegister = () => {
 							name="password_hash"
 							value={formData.password_hash}
 							onChange={handleInputChange}
-							placeholder="Confirm password" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Confirm password"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 					<div>
 						<label htmlFor="Interest" className="block text-lg font-semibold"> Interests </label>
@@ -151,7 +174,10 @@ const MenteeRegister = () => {
 							name="interests"
 							value={formData.interests}
 							onChange={handleInputChange}
-							placeholder="Interest" className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							placeholder="Interest"
+							className="border outline-0 p-2 rounded-md w-full bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+							required
+						/>
 					</div>
 
 					<div>
@@ -159,7 +185,9 @@ const MenteeRegister = () => {
 						<input
 							type="file"
 							onChange={handleFileChange}
-							className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]" />
+							className="border outline-0 p-[5px] rounded-md w-full  bg-[#f5f8fa] focus:border-2 focus:shadow-[0-0-4px-1px-rgba(0,208,228,0.3)]"
+
+						/>
 					</div>
 
 					<div className="text-center w-full col-span-2 pt-3">

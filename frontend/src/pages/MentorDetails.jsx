@@ -52,7 +52,7 @@ const MentorDetails = () => {
 		// Fetch mentor details from the API based on the ID when the component mounts
 		const fetchMentorDetails = async () => {
 			try {
-				const response = await axios.get(`http://localhost:5000/api/admins/mentors/${id}`);
+				const response = await axios.get(`http://localhost:5000/api/admins/mentor/${id}`);
 				const data = response.data;
 				setMentor(data); // Set the fetched mentor in the state
 			} catch (error) {
@@ -76,10 +76,10 @@ const MentorDetails = () => {
 							<img src={mentor.profile_picture} alt={mentor.first_name} className="w-full rounded-md" />
 						</div>
 						<div className="space-y-5 pt-4">
-							<p className="font-bold text-2xl">Name: <span className="font-semibold">{mentor.first_name}</span></p>
-							<p className="font-bold text-2xl">Country: <span className="font-semibold">{mentor.last_name}</span></p>
+							<p className="font-bold text-2xl">First Name: <span className="font-semibold">{mentor.first_name}</span></p>
+							<p className="font-bold text-2xl">Last Name: <span className="font-semibold">{mentor.last_name}</span></p>
 							<p className="font-bold text-2xl">Expertise: <span className="font-semibold">{mentor.expertise}</span></p>
-							<p className="font-bold text-2xl">Experience: <span className="font-semibold">{mentor.experience}</span></p>
+							<p className="font-bold text-2xl">Experience: <span className="font-semibold">{mentor.experience}</span> year(s)</p>
 						</div>
 						<div className="md:border-l-2 border-t-2 mt-5 md:mt-0 p-2">
 							<div className="text-center">
